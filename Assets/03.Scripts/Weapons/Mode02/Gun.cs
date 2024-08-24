@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class Gun : CustomGrabbable
-{
+public class Gun : CustomGrabbable {
     protected Animator animator;
 
     [SerializeField] public Transform barrelExit;
@@ -28,8 +27,7 @@ public class Gun : CustomGrabbable
 
     public float weaponDamage = 4.0f;
 
-    private void Start()
-    {
+    private void Start() {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.spatialBlend = 1;
         animator = GetComponent<Animator>();
@@ -41,15 +39,12 @@ public class Gun : CustomGrabbable
 
     protected virtual void OnTriggerEnter(Collider collision) { }
 
-    protected void CheckForHit()
-    {
+    protected void CheckForHit() {
         var forward = barrelExit.transform.TransformDirection(Vector3.forward);
         RaycastHit hitInfo;
         bool hittingSomething = Physics.Raycast(barrelExit.position, forward, out hitInfo, 1000);
-        if (hittingSomething)
-        {
-            if (hitInfo.transform.CompareTag("Actor") || hitInfo.transform.root.CompareTag("Actor"))
-            {
+        if (hittingSomething) {
+            if (hitInfo.transform.CompareTag("Actor") || hitInfo.transform.root.CompareTag("Actor")) {
                 var targetScript = hitInfo.transform.gameObject.GetComponent<Health>() ?? hitInfo.transform.root.gameObject.GetComponent<Health>();
                 if (targetScript == null) return;
                 targetScript.HitAction(hitInfo.point);

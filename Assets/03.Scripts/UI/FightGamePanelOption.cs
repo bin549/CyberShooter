@@ -1,31 +1,25 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class FightGamePanelOption : PanelOption
-{
+public class FightGamePanelOption : PanelOption {
     public PhotonView photonView;
 
-    private void Awake()
-    {
+    private void Awake() {
         photonView = GetComponent<PhotonView>();
     }
 
-    public override void Confirm()
-    {
-        if (isContinueOption)
-        {
+    public override void Confirm() {
+        if (isContinueOption) {
             OnClickRestart();
         }
     }
 
-    public void OnClickRestart()
-    {
+    public void OnClickRestart() {
         photonView.RPC("Restart", RpcTarget.All);
     }
 
     [PunRPC]
-    public void Restart()
-    {
+    public void Restart() {
         PhotonNetwork.LoadLevel("Game");
     }
 }

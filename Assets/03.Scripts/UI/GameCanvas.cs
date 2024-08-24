@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
 [DefaultExecutionOrder(1)]
-public class GameCanvas : MonoBehaviour
-{
+public class GameCanvas : MonoBehaviour {
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
@@ -22,13 +21,11 @@ public class GameCanvas : MonoBehaviour
 
     private Animator loadAnimator;
 
-    public Animator LoadAnimator()
-    {
+    public Animator LoadAnimator() {
         return loadAnimator;
     }
 
-    public void Awake()
-    {
+    public void Awake() {
         pausePanel = GameObject.Find("PausePanel");
         winPanel = GameObject.Find("WinPanel");
         losePanel = GameObject.Find("LosePanel");
@@ -36,39 +33,33 @@ public class GameCanvas : MonoBehaviour
         loadAnimator = winGuardianEffect.GetComponent<Animator>();
     }
 
-    public void Start()
-    {
+    public void Start() {
         HidePanel();
 
         loadAnimator.SetTrigger("fade_out");
     }
 
-    public void Dangerous()
-    {
+    public void Dangerous() {
         DangerousPanel.SetActive(true);
     }
 
-    public void Hurt()
-    {
+    public void Hurt() {
         var hurtPanel = Instantiate(HurtPanel, transform);
         hurtPanel.transform.parent = transform;
     }
 
-    public void SetupGameCanvas(PlayerConstraint playerConstraint)
-    {
+    public void SetupGameCanvas(PlayerConstraint playerConstraint) {
         this.playerConstraint = playerConstraint;
     }
 
-    public void HidePanel()
-    {
+    public void HidePanel() {
         pausePanel.gameObject.SetActive(false);
         winPanel.gameObject.SetActive(false);
         losePanel.gameObject.SetActive(false);
         DangerousPanel.gameObject.SetActive(false);
     }
 
-    public void WinLevel()
-    {
+    public void WinLevel() {
         winEffect = GameObject.Instantiate(winEffectPrefab, transform.root.position, transform.root.rotation);
         GameObject.Destroy(winEffect, 2.0f);
         winGuardianEffect.SetActive(true);
@@ -76,8 +67,7 @@ public class GameCanvas : MonoBehaviour
         playerConstraint.SetupWalkOnly();
     }
 
-    public void LoseLevel()
-    {
+    public void LoseLevel() {
         loseEffect = GameObject.Instantiate(loseEffectPrefab, transform.root.position, transform.root.rotation);
         GameObject.Destroy(loseEffect, 2.0f);
         loseGuardianEffect.SetActive(true);
@@ -85,15 +75,11 @@ public class GameCanvas : MonoBehaviour
         playerConstraint.SetupWalkOnly();
     }
 
-    public void Pause(bool isPause)
-    {
-        if (!isPause)
-        {
+    public void Pause(bool isPause) {
+        if (!isPause) {
             pausePanel.gameObject.SetActive(false);
             playerConstraint.SetupTeleportOnly();
-        }
-        else
-        {
+        } else {
             pausePanel.gameObject.SetActive(true);
             playerConstraint.SetupWalkOnly();
         }

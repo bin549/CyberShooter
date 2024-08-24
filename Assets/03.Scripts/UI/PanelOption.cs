@@ -5,8 +5,7 @@ using Photon.Pun;
 using System.Collections;
 
 [RequireComponent(typeof(Toggle))]
-public class PanelOption : MonoBehaviourPunCallbacks
-{
+public class PanelOption : MonoBehaviourPunCallbacks {
     protected Toggle isSelectedToggle;
     protected GameManager gameManager;
     [SerializeField] protected bool isRetryOption = false;
@@ -16,73 +15,59 @@ public class PanelOption : MonoBehaviourPunCallbacks
     [SerializeField] protected bool isResumeOption = false;
     public int currentLevel;
 
-    protected void Awake()
-    {
+    protected void Awake() {
         gameManager = FindObjectOfType<GameManager>();
         isSelectedToggle = GetComponent<Toggle>();
     }
 
-    public void Init(GamePanel gamePanel)
-    {
+    public void Init(GamePanel gamePanel) {
         isSelectedToggle.group = gamePanel.toggleGroup;
         isSelectedToggle.graphic = transform.GetChild(0).gameObject.GetComponent<Image>();
         UnSelected();
     }
 
-    public void Selected()
-    {
+    public void Selected() {
         isSelectedToggle.isOn = true;
     }
 
-    public void UnSelected()
-    {
+    public void UnSelected() {
         isSelectedToggle.isOn = false;
     }
 
-    public virtual void Confirm()
-    {
+    public virtual void Confirm() {
         string currentLevelName = SceneManager.GetActiveScene().name;
         currentLevel = int.Parse(currentLevelName.Substring(SceneNames.LEVEL.Length, 2));
-        if (isRetryOption)
-        {
+        if (isRetryOption) {
             gameManager.LoadScene(SceneManager.GetActiveScene().name);
         }
-        if (isMenuOption)
-        {
+        if (isMenuOption) {
             // Destroy(FindObjectOfType<GameManager>());
             gameManager.LoadScene(SceneNames.MENU);
         }
-        if (isContinueOption)
-        {
-            if (currentLevel != PlayerPrefs.GetInt("levelNum"))
-            {
+        if (isContinueOption) {
+            if (currentLevel != PlayerPrefs.GetInt("levelNum")) {
                 int nextLevel = currentLevel + 1;
-                if (currentLevel == PlayerPrefs.GetInt("levelReached"))
-                {
+                if (currentLevel == PlayerPrefs.GetInt("levelReached")) {
                     PlayerPrefs.SetInt("levelReached", nextLevel);
                 }
                 gameManager.LoadScene(SceneNames.LEVEL + nextLevel.ToString("00"));
             }
-            else
-            {
+            else {
                 gameManager.LoadScene(SceneNames.LEVEL99);
             }
 
             //  PlayerPrefs.SetInt("levelReached", levelToUnlock);
             //gameManager.LoadScene(nextLevel);
         }
-        if (isQuitMatchOption)
-        {
+        if (isQuitMatchOption) {
             PhotonNetwork.LeaveRoom();
         }
-        if (isResumeOption)
-        {
+        if (isResumeOption) {
             FindObjectOfType<PlayerUI>().Pause();
         }
     }
 
-    public override void OnLeftRoom()
-    {
+    public override void OnLeftRoom() {
         SceneManager.LoadScene(SceneNames.ONLINEMODE);
     }
 }

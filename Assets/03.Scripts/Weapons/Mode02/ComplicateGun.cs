@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class ComplicateGun : Gun
-{
+public class ComplicateGun : Gun {
     [SerializeField] private bool cockBack = false;
     [SerializeField] private bool cocked = false;
     public bool CockBack { get => cockBack; set => cockBack = value; }
@@ -12,12 +11,9 @@ public class ComplicateGun : Gun
     [SerializeField] public Transform cockBackPosition;
     [SerializeField] public Transform cartridgeExit;
 
-    protected override void OnTriggerEnter(Collider collision)
-    {
-        if (collision.gameObject.CompareTag(magazineTag))
-        {
-            if (!magazineInGun)
-            {
+    protected override void OnTriggerEnter(Collider collision) {
+        if (collision.gameObject.CompareTag(magazineTag)) {
+            if (!magazineInGun) {
                 audioSource.PlayOneShot(magazineInSound);
                 magazine = collision.gameObject;
                 var rigidBody = magazine.GetComponent<Rigidbody>();
@@ -30,8 +26,7 @@ public class ComplicateGun : Gun
                 magazine.transform.rotation = magazinePosition.rotation;
                 magazineInGun = true;
                 rounds += 9;
-                if (animator.GetCurrentAnimatorStateInfo(0).IsTag("FireLastRound"))
-                {
+                if (animator.GetCurrentAnimatorStateInfo(0).IsTag("FireLastRound")) {
                     animator.SetTrigger("Loaded");
                 }
             }
@@ -39,26 +34,21 @@ public class ComplicateGun : Gun
     }
 
 
-    public void CockBackSlider()
-    {
+    public void CockBackSlider() {
         if (isDesertEagle)
             Cocked = true;
         audioSource.PlayOneShot(cockBackSound);
         CockBack = false;
         animator.SetTrigger("CockBack");
 
-        if (transform.parent.transform.parent.name == "CustomHandRight")
-        {
+        if (transform.parent.transform.parent.name == "CustomHandRight") {
             VibrationManager.Instance.VibrateController(0.25f, 0.1f, 0.1f, OVRInput.Controller.RTouch);
-        }
-        else if (transform.parent.transform.parent.name == "CustomHandLeft")
-        {
+        } else if (transform.parent.transform.parent.name == "CustomHandLeft") {
             VibrationManager.Instance.VibrateController(0.25f, 0.1f, 0.1f, OVRInput.Controller.LTouch);
         }
     }
 
-    public void SendCartridge()
-    {
+    public void SendCartridge() {
         if (!isDesertEagle)
             rounds--;
         var newCartridge = Instantiate(cartridge, cartridgeExit.position, cartridgeExit.rotation);
@@ -70,26 +60,20 @@ public class ComplicateGun : Gun
         Destroy(newCartridge, 5f);
     }
 
-    protected override void ReleaseMagazineFromGun()
-    {
+    protected override void ReleaseMagazineFromGun() {
         ReleaseMagazine = false;
-        if (magazine != null)
-        {
+        if (magazine != null) {
             audioSource.PlayOneShot(magazineReleaseSound);
             magazine.transform.parent = null;
             var rigidBody = magazine.GetComponent<Rigidbody>();
             rigidBody.isKinematic = false;
             rigidBody.AddForce(-magazine.transform.up * 3, ForceMode.Impulse);
 
-            if (isDesertEagle)
-            {
-                if (rounds > 1)
-                {
+            if (isDesertEagle) {
+                if (rounds > 1) {
                     rounds = 1;
                 }
-            }
-            else
-            {
+            } else {
                 rounds = 0;
             }
             magazineInGun = false;

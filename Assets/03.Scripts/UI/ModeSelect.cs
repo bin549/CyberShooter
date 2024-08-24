@@ -1,21 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ModeSelect : MonoBehaviour
-{
+public class ModeSelect : MonoBehaviour {
     public Button onlineModeButton;
     public Button offlineModeButton;
     private SceneLoader sceneLoader;
 
-    private void Awake()
-    {
+    private void Awake() {
         sceneLoader = FindObjectOfType<SceneLoader>();
         onlineModeButton = GameObject.Find("onlineModeButton").GetComponent<Button>();
         offlineModeButton = GameObject.Find("offlineModeButton").GetComponent<Button>();
     }
 
-    private void Start()
-    {
+    private void Start() {
         onlineModeButton.onClick.AddListener(() =>
         {
             OnlineMode();
@@ -26,13 +23,11 @@ public class ModeSelect : MonoBehaviour
         });
     }
 
-    public void OnlineMode()
-    {
+    public void OnlineMode() {
         sceneLoader.LoadScene(SceneNames.ONLINEMODE);
     }
 
-    public void OfflineMode()
-    {
+    public void OfflineMode() {
         sceneLoader.LoadScene(SceneNames.OFFLINEMODE);
         /*
         if (PlayerPrefs.GetInt("levelReached", 0) == 0)

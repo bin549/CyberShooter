@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class ThrowGrabbable : CustomGrabbable
-{
+public class ThrowGrabbable : CustomGrabbable {
     public bool canExplose = false;
 
-    public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity)
-    {
+    public void GrabEnd(Vector3 linearVelocity, Vector3 angularVelocity) {
         rigidBody.isKinematic = false;
         rigidBody.velocity = linearVelocity;
         rigidBody.angularVelocity = angularVelocity;

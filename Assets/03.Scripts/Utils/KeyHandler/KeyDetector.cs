@@ -8,8 +8,7 @@ public class KeyDetector : MonoBehaviour {
     private bool iskeyBoardShow = false;
 
     private void Update() {
-        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
-        {
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
             iskeyBoardShow = !iskeyBoardShow;
             keyBoard.SetActive(iskeyBoardShow);
         }
@@ -21,21 +20,16 @@ public class KeyDetector : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other) {
         var key = other.GetComponentInChildren<TextMeshPro>();
-        if (key != null)
-        {
+        if (key != null) {
             var keyFeedBack = other.gameObject.GetComponent<KeyFeedback>();
-            if (keyFeedBack.keyCanBeHitAgain)
-            {
-                if (key.text == "SPACE")
-                {
+            if (keyFeedBack.keyCanBeHitAgain) {
+                if (key.text == "SPACE") {
                     inputField.text += " ";
                 }
-                else if (key.text == "<-")
-                {
+                else if (key.text == "<-") {
                     inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
                 }
-                else
-                {
+                else {
                     inputField.text += key.text;
                 }
                 keyFeedBack.keyHit = true;
@@ -44,8 +38,7 @@ public class KeyDetector : MonoBehaviour {
     }
 
     public void SetSourceText(string text) {
-        if (inputField != null)
-        {
+        if (inputField != null) {
             inputField.text = text;
         }
     }

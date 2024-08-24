@@ -1,6 +1,5 @@
 using UnityEngine;
 
-public class MeleeGrabbable : CustomGrabbable
-{
+public class MeleeGrabbable : CustomGrabbable {
 
 }
