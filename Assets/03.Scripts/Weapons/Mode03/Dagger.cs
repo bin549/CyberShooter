@@ -1,6 +1,5 @@
 using UnityEngine;
 
-public class Dagger : MeleeWeapon
-{
+public class Dagger : MeleeWeapon {
 
 }

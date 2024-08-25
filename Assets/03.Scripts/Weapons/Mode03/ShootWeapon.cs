@@ -2,30 +2,25 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class ShootWeapon : UpgradeWeaponController
-{
+public class ShootWeapon : UpgradeWeaponController {
     public Transform firePoint;
     protected float upgradeDamage = 20f;
 
-    protected override void Awake()
-    {
+    protected override void Awake() {
         base.Awake();
     }
 
-    protected override void Update()
-    {
+    protected override void Update() {
         base.Update();
     }
 
     protected virtual void Shoot() { }
 
-    public override void UpgradeWeapon()
-    {
+    public override void UpgradeWeapon() {
         base.UpgradeWeapon();
     }
 
-    public virtual void IncreaseBullet()
-    {
+    public virtual void IncreaseBullet() {
 
     }
 }

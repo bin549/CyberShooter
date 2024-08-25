@@ -25,11 +25,9 @@ public class KeyDetector : MonoBehaviour {
             if (keyFeedBack.keyCanBeHitAgain) {
                 if (key.text == "SPACE") {
                     inputField.text += " ";
-                }
-                else if (key.text == "<-") {
+                } else if (key.text == "<-") {
                     inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
-                }
-                else {
+                } else {
                     inputField.text += key.text;
                 }
                 keyFeedBack.keyHit = true;

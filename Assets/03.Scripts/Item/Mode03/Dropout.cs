@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public enum DropoutType
-{
+public enum DropoutType {
     ShootWeapon,
     ThrowWeapon,
     MeleeWeapon,
@@ -31,8 +30,7 @@ public class Dropout : MonoBehaviour {
     }
 
     public void InitDropoutWeapon() {
-        switch (dropoutType)
-        {
+        switch (dropoutType) {
             case DropoutType.ShootWeapon:
                 weaponDropout = weaponDB.GetShootWeapon();
                 break;
@@ -47,14 +45,9 @@ public class Dropout : MonoBehaviour {
                 weaponDropout = null;
                 break;
         }
-
-
-        if (weaponDropout == null)
-        {
+        if (weaponDropout == null) {
             PhotonNetwork.Destroy(this.gameObject);
-        }
-        else
-        {
+        } else {
             InitParticleShape();
         }
     }
@@ -69,8 +62,7 @@ public class Dropout : MonoBehaviour {
         Destroy(instance);
 
         Mesh shapemesh = instance.GetComponent<MeshFilter>().sharedMesh;
-        if (shapemesh != null)
-        {
+        if (shapemesh != null) {
             shape.mesh = shapemesh;
 
         }
@@ -80,21 +72,17 @@ public class Dropout : MonoBehaviour {
 
     public void HighLight(bool isLight) {
         if (isLight)
-            animator.SetTrigger("open");
-        else
+            animator.SetTrigger("open"); else
             animator.SetTrigger("close");
     }
 
     public void BePickUp(Transform dropoutGrabberParent, OVRInput.Controller controller) {
         var cooperationModeGameManager = FindObjectOfType<CooperationModeGameManager>();
-        if (!cooperationModeGameManager.HasWeapon)
-        {
+        if (!cooperationModeGameManager.HasWeapon) {
             cooperationModeGameManager.HasWeapon = true;
             FindObjectOfType<MusicDB>().Play();
         }
-
-        if (weaponDropout != null)
-        {
+        if (weaponDropout != null) {
             //        Quaternion weaponDropoutRotation = Quaternion.Euler( instance.transform.localRotation.x + dropoutGrabberParent.transform.rotation.x, instance.transform.localRotation.y + dropoutGrabberParent.transform.rotation.y, instance.transform.localRotation.z + dropoutGrabberParent.transform.rotation.z);
             GameObject weapon_obj = PhotonNetwork.Instantiate(weaponDropout.name, dropoutGrabberParent.position, dropoutGrabberParent.rotation);
             weapon_obj.transform.parent = dropoutGrabberParent;
@@ -109,9 +97,7 @@ public class Dropout : MonoBehaviour {
             weapon = weapon_obj.GetComponent<WeaponController>();
             weapon.Controller = controller;
             dropoutGrabberParent.GetComponent<WeaponControllerManager>().Add(weapon, isThrowWeapon);
-        }
-        else
-        {
+        } else {
             PhotonNetwork.Destroy(gameObject);
             //  dropoutGrabberParent.GetComponent<WeaponControllerManager>().IncreaseGunBullet();
         }

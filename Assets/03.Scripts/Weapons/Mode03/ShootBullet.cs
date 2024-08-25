@@ -3,8 +3,7 @@ using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
-public class ShootBullet : MonoBehaviour
-{
+public class ShootBullet : MonoBehaviour {
     public GameObject impactParticle;
     public GameObject projectileParticle;
     public GameObject muzzleParticle;
@@ -16,43 +15,36 @@ public class ShootBullet : MonoBehaviour
     [SerializeField] private float force = 700f;
     protected PhotonView photonView;
 
-    protected void Awake()
-    {
+    protected void Awake() {
         bulletAudio = GetComponent<BulletAudio>();
         photonView = GetComponent<PhotonView>();
     }
-    protected virtual void DestroyBullet()
-    {
+    
+    protected virtual void DestroyBullet() {
         PhotonNetwork.Destroy(this.gameObject);
     }
 
-    protected virtual void Start()
-    {
+    protected virtual void Start() {
         GetComponent<Rigidbody>().AddForce(transform.forward * speed);
         transform.localScale = new Vector3(Random.Range(1.5f, 2), Random.Range(1.5f, 2), Random.Range(1.5f, 2));
         photonView.RPC("SpawnProjectileEffect", RpcTarget.All);
         Invoke("DestroyBullet", 10.0f);
     }
 
-    protected void OnCollisionEnter(Collision collision)
-    {
+    protected void OnCollisionEnter(Collision collision) {
         bulletAudio.PlayImpactSound();
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
+        if (collision.gameObject.CompareTag("Enemy")) {
             Damage(collision.gameObject.transform);
             EnemyAI enemyAI = collision.gameObject.GetComponent<EnemyAI>();
             enemyAI.SetNewDestination(transform);
         }
-        if (collision.gameObject.CompareTag("Obstacle"))
-        {
+        if (collision.gameObject.CompareTag("Obstacle")) {
             Destroy(collision.gameObject.transform);
         }
-        if (collision.gameObject.CompareTag("Car"))
-        {
+        if (collision.gameObject.CompareTag("Car")) {
             Land(collision.gameObject.transform);
         }
-        if (explosionRadius > 0f)
-        {
+        if (explosionRadius > 0f) {
             Explode();
         }
         photonView.RPC("SpawnImpactEffect", RpcTarget.All);
@@ -60,12 +52,10 @@ public class ShootBullet : MonoBehaviour
     }
 
     [PunRPC]
-    protected void SpawnProjectileEffect()
-    {
+    protected void SpawnProjectileEffect() {
         projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
         projectileParticle.transform.parent = transform;
-        if (muzzleParticle)
-        {
+        if (muzzleParticle) {
             muzzleParticle = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
             muzzleParticle.transform.rotation = transform.rotation * Quaternion.Euler(180, 0, 0);
             Destroy(muzzleParticle, 1.5f);
@@ -73,52 +63,41 @@ public class ShootBullet : MonoBehaviour
     }
 
     [PunRPC]
-    protected void SpawnImpactEffect()
-    {
+    protected void SpawnImpactEffect() {
         impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)) as GameObject;
         Destroy(projectileParticle, 3f);
         Destroy(impactParticle, 5f);
     }
 
-    protected void HitTarget(Collision collision)
-    {
+    protected void HitTarget(Collision collision) {
 
     }
 
-    protected void Explode()
-    {
+    protected void Explode() {
         Collider[] collidersToHurt = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider collider in collidersToHurt)
-        {
-            if (collider.gameObject.CompareTag("Enemy"))
-            {
+        foreach (Collider collider in collidersToHurt) {
+            if (collider.gameObject.CompareTag("Enemy")) {
                 Damage(collider.gameObject.transform);
             }
-            if (collider.gameObject.CompareTag("Obstacle"))
-            {
+            if (collider.gameObject.CompareTag("Obstacle")) {
                 Destroy(collider.gameObject.transform);
             }
-            if (collider.gameObject.CompareTag("Car"))
-            {
+            if (collider.gameObject.CompareTag("Car")) {
                 Land(collider.gameObject.transform);
             }
         }
         Collider[] collidersToMove = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider nearbyObject in collidersToMove)
-        {
+        foreach (Collider nearbyObject in collidersToMove) {
             Rigidbody rb = nearbyObject.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
+            if (rb != null) {
                 rb.AddExplosionForce(force, transform.position, explosionRadius);
             }
         }
     }
 
-    protected void Damage(Transform enemy)
-    {
+    protected void Damage(Transform enemy) {
         EnemyHealth e = enemy.gameObject.GetComponent<EnemyHealth>();
-        if (e != null)
-        {
+        if (e != null) {
             e.TakeDamage(damage);
         }
         /*
@@ -130,31 +109,25 @@ ea.TakeDamage(damage);
 */
     }
 
-    protected void Destroy(Transform obstacle)
-    {
+    protected void Destroy(Transform obstacle) {
         Barrel barrel = obstacle.gameObject.GetComponent<Barrel>();
-        if (barrel != null)
-        {
+        if (barrel != null) {
             barrel.TakeDamage();
         }
         Destructible destructible = obstacle.gameObject.GetComponent<Destructible>();
-        if (destructible != null)
-        {
+        if (destructible != null) {
             destructible.TakeDamage();
         }
     }
 
-    protected void Land(Transform car)
-    {
+    protected void Land(Transform car) {
         Car c = car.gameObject.GetComponent<Car>();
-        if (c != null)
-        {
+        if (c != null) {
             c.TakeDamage();
         }
     }
 
-    protected void OnDrawGizmosSelected()
-    {
+    protected void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }

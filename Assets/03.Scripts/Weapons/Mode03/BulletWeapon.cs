@@ -1,8 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class BulletWeapon : ShootWeapon
-{
+public class BulletWeapon : ShootWeapon {
     protected float elapsedTime;
     [SerializeField] private ShootBullet[] bullets;
     public ShootBullet bulletPrefab;
@@ -15,37 +14,28 @@ public class BulletWeapon : ShootWeapon
     [SerializeField] protected bool willSMG;
     [SerializeField] protected bool isSMG;
 
-    protected override void Awake()
-    {
+    protected override void Awake() {
         base.Awake();
     }
 
-    protected override void Update()
-    {
+    protected override void Update() {
         base.Update();
         WeaponShoot();
     }
 
-    protected void WeaponShoot()
-    {
+    protected void WeaponShoot() {
         elapsedTime += Time.deltaTime;
-        if (!isSMG)
-        {
-            if (OVRInput.GetDown(actionButton, Controller) || Input.GetKeyDown(KeyCode.E))
-            {
-                if (elapsedTime > fireRate)
-                {
+        if (!isSMG) {
+            if (OVRInput.GetDown(actionButton, Controller) || Input.GetKeyDown(KeyCode.E)) {
+                if (elapsedTime > fireRate) {
                     Shoot();
                     elapsedTime = 0;
                 }
             }
         }
-        else
-        {
-            if (OVRInput.Get(actionButton, Controller)|| Input.GetKey(KeyCode.E))
-            {
-                if (elapsedTime > fireRate)
-                {
+        else {
+            if (OVRInput.Get(actionButton, Controller)|| Input.GetKey(KeyCode.E)) {
+                if (elapsedTime > fireRate) {
                     Shoot();
                     elapsedTime = 0;
                 }
@@ -53,20 +43,16 @@ public class BulletWeapon : ShootWeapon
         }
     }
 
-    public override void UpgradeWeapon()
-    {
+    public override void UpgradeWeapon() {
         base.UpgradeWeapon();
         if (bullets[nextBulletIndex] != null)
             bulletPrefab = bullets[nextBulletIndex];
         nextBulletIndex++;
-        if (nextBulletIndex == bullets.Length / 2)
-        {
+        if (nextBulletIndex == bullets.Length / 2) {
             if (willSMG)
                 isSMG = true;
         }
-        if (nextBulletIndex == bullets.Length)
-        {
-            {
+        if (nextBulletIndex == bullets.Length) { {
                 if (willColorful)
                     isColorful = true;
             }
@@ -74,13 +60,11 @@ public class BulletWeapon : ShootWeapon
         fireRate -= upgradeFireRate;
     }
 
-    protected override void Shoot()
-    {
+    protected override void Shoot() {
         weaponAudio.PlayShootSound();
         VibrationManager.Instance.VibrateController(duration, frequency, amplitude, Controller);
 
-        if (isColorful)
-        {
+        if (isColorful) {
             bulletPrefab = bullets[Random.Range(0, bullets.Length)];
         }
         PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation);

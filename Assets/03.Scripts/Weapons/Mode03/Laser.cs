@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class Laser : ShootWeapon
-{
+public class Laser : ShootWeapon {
     public bool useLaser = false;
     public int damageOverTime = 100;
     public float slowAmount = .5f;
@@ -39,79 +38,62 @@ public class Laser : ShootWeapon
     private int upgradeBeamIndex = 0;
     [SerializeField] protected OVRInput.Button lockButton = OVRInput.Button.PrimaryHandTrigger;
 
-    protected override void Update()
-    {
+    protected override void Update() {
         base.Update();
         DetectTarget();
         DrawAimingLine();
         Shoot();
     }
 
-    private void DetectTarget()
-    {
+    private void DetectTarget() {
         Ray ray = new Ray();
         ray.direction = firePoint.forward;
         ray.origin = firePoint.position;
 
         bool hitCheck = Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit);
-        if (hitCheck)
-        {
+        if (hitCheck) {
             targetPosition = hit.point;
 
             bool hitEnemy = hit.collider.gameObject.CompareTag("Enemy");
             bool hitObstacle = hit.collider.gameObject.CompareTag("Obstacle");
             bool hitCar = hit.collider.gameObject.CompareTag("Car");
-
-            if (drawLine)
-            {
+            if (drawLine) {
                 Debug.DrawRay(ray.origin, ray.direction, Color.red, 0.1f);
                 aimLineRenderer.enabled = true;
                 aimLineRenderer.SetPosition(0, firePoint.position);
                 aimLineRenderer.SetPosition(1, hit.point);
                 aimLineRenderer.sharedMaterial.color = hitEnemy ? Color.green : Color.white;
             }
-
-            if (hitEnemy)
-            {
+            if (hitEnemy) {
                 targetHealth = hit.collider.gameObject.GetComponent<EnemyHealth>();
                 targetMovement = hit.collider.gameObject.GetComponent<EnemyAI>();
             }
-            if (hitObstacle)
-            {
+            if (hitObstacle) {
                 obstacle = hit.collider.gameObject.GetComponent<Obstacle>();
             }
-            if (hitCar)
-            {
+            if (hitCar) {
                 car = hit.collider.gameObject.GetComponent<Car>();
             }
-        }
-        else
-        {
+        } else {
             aimLineRenderer.enabled = false;
         }
     }
 
-    private void DrawAimingLine()
-    {
-        if (OVRInput.GetDown(lockButton, Controller) || Input.GetKeyDown(KeyCode.Q))
-        {
+    private void DrawAimingLine() {
+        if (OVRInput.GetDown(lockButton, Controller) || Input.GetKeyDown(KeyCode.Q)) {
             drawLine = true;
         }
-        if (OVRInput.GetUp(lockButton, Controller) || Input.GetKeyUp(KeyCode.Q))
-        {
+        if (OVRInput.GetUp(lockButton, Controller) || Input.GetKeyUp(KeyCode.Q)) {
             drawLine = false;
             aimLineRenderer.enabled = false;
         }
     }
 
-    protected override void Shoot()
-    {
-        if (OVRInput.GetDown(actionButton, Controller) || Input.GetKeyDown(KeyCode.Mouse0))
-        {
+    protected override void Shoot() {
+        if (OVRInput.GetDown(actionButton, Controller) || Input.GetKeyDown(KeyCode.Mouse0)) {
             photonView.RPC("LockTarget", RpcTarget.All);
         }
-        if (OVRInput.GetUp(actionButton, Controller) || Input.GetKeyUp(KeyCode.Mouse0))
-        {
+        if (OVRInput.GetUp(actionButton, Controller) || Input.GetKeyUp(KeyCode.Mouse0)) {
             photonView.RPC("UnLockTarget", RpcTarget.All);
         }
         LaserShoot();
@@ -119,8 +101,7 @@ public class Laser : ShootWeapon
 
 
     [PunRPC]
-    private void LockTarget()
-    {
+    private void LockTarget() {
         ResetTarget();
         beamStart = Instantiate(beamStartPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         beamEnd = Instantiate(beamEndPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
@@ -131,8 +112,7 @@ public class Laser : ShootWeapon
     }
 
     [PunRPC]
-    private void UnLockTarget()
-    {
+    private void UnLockTarget() {
         Destroy(beamStart);
         Destroy(beamEnd);
         Destroy(beam);
@@ -143,17 +123,14 @@ public class Laser : ShootWeapon
         weaponAudio.Stop();
     }
 
-    private void ResetTarget()
-    {
+    private void ResetTarget() {
         targetHealth = null;
         targetMovement = null;
         obstacle = null;
     }
 
-    private void LaserShoot()
-    {
-        if (useLaser)
-        {
+    private void LaserShoot() {
+        if (useLaser) {
             beamStart.transform.position = firePoint.position;
             attackLineRenderer.SetPosition(0, firePoint.position);
             attackLineRenderer.SetPosition(1, targetPosition);
@@ -164,17 +141,14 @@ public class Laser : ShootWeapon
             attackLineRenderer.sharedMaterial.mainTextureScale = new Vector2(distance / textureLengthScale, 1);
             attackLineRenderer.sharedMaterial.mainTextureOffset -= new Vector2(Time.deltaTime * textureScrollSpeed, 0);
 
-            if (targetMovement != null)
-            {
+            if (targetMovement != null) {
                 targetHealth.TakeDamage(damageOverTime * Time.deltaTime);
                 targetMovement.Slow(slowAmount);
             }
-            if (obstacle != null)
-            {
+            if (obstacle != null) {
                 obstacle.TakeDamage();
             }
-            if (car != null)
-            {
+            if (car != null) {
 
                 car.LaserDamage();
 
@@ -184,8 +158,7 @@ public class Laser : ShootWeapon
         }
     }
 
-    public override void UpgradeWeapon()
-    {
+    public override void UpgradeWeapon() {
         base.UpgradeWeapon();
         beamStartPrefab = beamStartPrefabs[upgradeBeamIndex];
         beamEndPrefab = beamEndPrefabs[upgradeBeamIndex];

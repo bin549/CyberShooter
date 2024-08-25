@@ -1,8 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
     [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float aliveTime = 5f;
@@ -13,29 +12,23 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody rigidbody;
 
-    private void Start()
-    {
+    private void Start() {
         rigidbody.AddRelativeForce(transform.forward * speed, forceMode);
         Destroy(gameObject, aliveTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Shield") || collision.gameObject.CompareTag("Wall"))
-        {
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Shield") || collision.gameObject.CompareTag("Wall")) {
             rigidbody.AddForceAtPosition(transform.position, transform.position, bounchForceMode);
         }
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (collision.gameObject.GetComponent<PhotonView>().IsMine)
-            {
+        if (collision.gameObject.CompareTag("Player")) {
+            if (collision.gameObject.GetComponent<PhotonView>().IsMine) {
                 collision.gameObject.GetComponent<PhotonView>().RPC("DoDamage", RpcTarget.AllBuffered, damage);
             }
         }
     }
 
-    public void Initialize(float speed, float damage, int bulletId)
-    {
+    public void Initialize(float speed, float damage, int bulletId) {
         this.speed = speed;
         this.damage = damage;
         this.playerId = playerId;

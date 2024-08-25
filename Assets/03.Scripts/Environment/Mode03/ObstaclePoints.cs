@@ -1,7 +1,6 @@
 using UnityEngine;
 
-public class ObstaclePoints : MonoBehaviour
-{
+public class ObstaclePoints : MonoBehaviour {
     public ObstaclePoint[] obstaclePoints;
 }
  

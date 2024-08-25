@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class MeleeWeapon : UpgradeWeaponController
-{
+public class MeleeWeapon : UpgradeWeaponController {
     public float damage = 20f;
     [SerializeField] protected float force = 100f;
     [SerializeField] protected GameObject effect;
@@ -12,18 +11,15 @@ public class MeleeWeapon : UpgradeWeaponController
     public float upgradeeffectTriggerPossibility = 0.2f;
     public UnityAction<Collision> onEffectTrigger;
 
-    protected virtual void Start()
-    {
+    protected virtual void Start() {
 
     }
 
-    protected override void Update()
-    {
+    protected override void Update() {
         base.Update();
     }
 
-    protected virtual void OnCollisionEnter(Collision collision)
-    {
+    protected virtual void OnCollisionEnter(Collision collision) {
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -36,8 +32,7 @@ public class MeleeWeapon : UpgradeWeaponController
         }
     }
 
-    public override void UpgradeWeapon()
-    {
+    public override void UpgradeWeapon() {
         base.UpgradeWeapon();
         if (effects[nextEffectIndex] != null)
         {

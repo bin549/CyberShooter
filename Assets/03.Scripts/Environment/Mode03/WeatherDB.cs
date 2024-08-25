@@ -1,23 +1,19 @@
 using UnityEngine;
 
-public class WeatherDB : MonoBehaviour
-{
+public class WeatherDB : MonoBehaviour {
     [SerializeField] private Weather[] weathers;
     [SerializeField] private Weather currentWeather;
     [SerializeField] private int currentWeatherIndex;
     [SerializeField] private int dayCounter = 0;
 
-    private void Awake()
-    {
+    private void Awake() {
         currentWeather = weathers[currentWeatherIndex];
         SetWeatherEnv(true);
     }
 
-    public void Tomorrow()
-    {
+    public void Tomorrow() {
         dayCounter++;
-        if (dayCounter == currentWeather.duration && currentWeatherIndex != weathers.Length)
-        {
+        if (dayCounter == currentWeather.duration && currentWeatherIndex != weathers.Length) {
             SetWeatherEnv(false);
             currentWeatherIndex++;
             currentWeather = weathers[currentWeatherIndex];
@@ -26,10 +22,8 @@ public class WeatherDB : MonoBehaviour
         }
     }
 
-    private void SetWeatherEnv(bool isVisible)
-    {
-        foreach (GameObject env in currentWeather.envs)
-        {
+    private void SetWeatherEnv(bool isVisible) {
+        foreach (GameObject env in currentWeather.envs) {
             env.SetActive(isVisible);
         }
     }

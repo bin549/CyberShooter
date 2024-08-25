@@ -1,8 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class WeaponController : MonoBehaviourPun
-{
+public class WeaponController : MonoBehaviourPun {
     [SerializeField] protected OVRInput.Controller controller;
     [SerializeField] protected OVRInput.Button actionButton = OVRInput.Button.PrimaryIndexTrigger;
 
@@ -16,14 +15,12 @@ public class WeaponController : MonoBehaviourPun
     [Range(0, 4.0f)] [SerializeField] protected float amplitude = 1.30f;
 
 
-    protected virtual void Awake()
-    {
+    protected virtual void Awake() {
         weaponAudio = GetComponent<WeaponAudio>();
         photonView = GetComponent<PhotonView>();
     }
 
-    protected virtual void Update()
-    {
+    protected virtual void Update() {
 
     }
 

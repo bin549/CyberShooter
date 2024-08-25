@@ -36,14 +36,11 @@ public class GasTank_Script : ExplosiveBarrel_Script {
         while (true) {
             yield return null;
             randomRotationValue += 1.0f * Time.deltaTime;
-
             if (randomRotationValue > maxRotationSpeed) {
                 randomRotationValue = maxRotationSpeed;
             }
             gameObject.GetComponent<Rigidbody>().AddRelativeForce(Vector3.down * moveSpeed * 50 * Time.deltaTime);
-
             transform.Rotate(randomRotationValue, 0, randomValue * rotationSpeed * Time.deltaTime);
-
             flameSound.pitch += audioPitchIncrease * Time.deltaTime;
             if (expload) {
                 yield break;

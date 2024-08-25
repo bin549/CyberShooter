@@ -3,8 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public class AudioManager : MonoBehaviour
-{
+public class AudioManager : MonoBehaviour {
     private AudioSource audioSource;
 
     public AudioClip bgmClip;
@@ -12,69 +11,56 @@ public class AudioManager : MonoBehaviour
     public AudioClip gameOverClip;
     public AudioClip gameLoadClip;
 
-    private void Awake()
-    {
+    private void Awake() {
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.loop = true;
         audioSource.clip = bgmClip;
     }
 
-    private void Start()
-    {
+    private void Start() {
         audioSource.Play();
     }
 
-    public void Win()
-    {
+    public void Win() {
         audioSource.loop = false;
         audioSource.clip = gameWinClip;
         audioSource.Play();
     }
 
-    public void Load()
-    {
+    public void Load() {
         audioSource.loop = false;
         audioSource.clip = gameLoadClip;
         audioSource.Play();
     }
 
-    public void Lose()
-    {
+    public void Lose() {
         audioSource.loop = false;
         audioSource.clip = gameOverClip;
         audioSource.Play();
     }
 
-    public void DoMute(bool isMute)
-    {
-        if (isMute)
-        {
+    public void DoMute(bool isMute) {
+        if (isMute) {
             audioSource.Pause();
-        }
-        else
-        {
+        } else {
             audioSource.Play();
         }
     }
 
-    public void Resume()
-    {
+    public void Resume() {
         audioSource.Play();
     }
 
-    public void Play(AudioSource audioSource, AudioClip audioClip, bool isLoop = false)
-    {
+    public void Play(AudioSource audioSource, AudioClip audioClip, bool isLoop = false) {
         if (isLoop)
             audioSource.loop = true;
         else
             audioSource.loop = false;
-
         audioSource.clip = audioClip;
         audioSource.Play();
     }
 
-    public void Stop(AudioSource audioSource)
-    {
+    public void Stop(AudioSource audioSource) {
         audioSource.Stop();
     }
 }

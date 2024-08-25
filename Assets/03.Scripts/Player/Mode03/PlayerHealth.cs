@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 
 [RequireComponent(typeof(PlayerAudio))]
-public class PlayerHealth : CooperationModeHealth
-{
+public class PlayerHealth : CooperationModeHealth {
     public GameObject deathEffect;
     public PlayerAudio playerAudio;
     public PlayerUI playerUI;
@@ -17,50 +16,42 @@ public class PlayerHealth : CooperationModeHealth
     [SerializeField] private GameObject healEffectPrefab;
     [SerializeField] private GameObject healEffect;
 
-    protected override void Awake()
-    {
+    protected override void Awake() {
         base.Awake();
         playerAudio = GetComponent<PlayerAudio>();
         playerUI = GameObject.FindObjectOfType<PlayerUI>();
         photonView = GetComponent<PhotonView>();
     }
 
-    public override void TakeDamage(float amount)
-    {
+    public override void TakeDamage(float amount) {
         base.TakeDamage(amount);
         playerUI.Hurt();
     }
 
-    public void SetHealSound(AudioClip healSound)
-    {
+    public void SetHealSound(AudioClip healSound) {
         playerAudio.SetHealSound(healSound);
     }
 
-    protected override void Dangerous()
-    {
+    protected override void Dangerous() {
         playerUI.Dangerous(true);
         isDangerous = true;
     }
 
-    protected override void Die()
-    {
+    protected override void Die() {
         ShowHand(false);
         playerUI.Dangerous(false);
         if (!photonView.IsMine) ShowBody(false);
         playerUI.Die(true);
-        if (photonView.IsMine)
-        {
+        if (photonView.IsMine) {
             StartCoroutine(ReSpawn());
         }
     }
 
-    private IEnumerator ReSpawn()
-    {
+    private IEnumerator ReSpawn() {
         float respawnTime = 5.0f;
         playerUI.SetRespawnTimeText(respawnTime.ToString("0"));
         playerUI.locomotionSetup.EnabledTeleport(false);
-        while (respawnTime > 0.0f)
-        {
+        while (respawnTime > 0.0f) {
             respawnTime -= 1.0f;
             playerUI.SetRespawnTimeText(respawnTime.ToString("0"));
             yield return new WaitForSeconds(1.0f);
@@ -73,8 +64,7 @@ public class PlayerHealth : CooperationModeHealth
 
 
     [PunRPC]
-    public void Reborn()
-    {
+    public void Reborn() {
         health = startHealth;
         ShowHand(true);
         if (!photonView.IsMine) ShowBody(true);
@@ -82,35 +72,29 @@ public class PlayerHealth : CooperationModeHealth
         playerUI.Die(false);
     }
 
-    private void ShowHand(bool isShow)
-    {
+    private void ShowHand(bool isShow) {
         leftHand.SetActive(isShow);
         rightHand.SetActive(isShow);
     }
 
-    private void ShowBody(bool isShow)
-    {
+    private void ShowBody(bool isShow) {
         body.SetActive(isShow);
     }
 
-    public void Heal(float amount)
-    {
+    public void Heal(float amount) {
         photonView.RPC("HealRPC", RpcTarget.All, amount);
         playerAudio.PlayHealSound();
     }
 
     [PunRPC]
-    public void HealRPC(float amount)
-    {
+    public void HealRPC(float amount) {
         health += amount;
 
         healEffect = GameObject.Instantiate(healEffectPrefab, transform.root.position, transform.root.rotation);
         GameObject.Destroy(healEffect, 2.0f);
 
-        if (isDangerous)
-        {
-            if (health > 30.0f)
-            {
+        if (isDangerous) {
+            if (health > 30.0f) {
                 isDangerous = false;
                 playerUI.Dangerous(isDangerous);
 
@@ -124,12 +108,10 @@ public class PlayerHealth : CooperationModeHealth
             health = startHealth;
     }
     /*
-    private IEnumerator Respawn()
-    {
+    private IEnumerator Respawn() {
         GameObject reSpawnText = GameObject.Find("RespawnText");
         float respawnTime = 8.0f;
-        while (respawnTime > 0.0f)
-        {
+        while (respawnTime > 0.0f) {
             yield return new WaitForSeconds(1.0f);
             respawnTime -= 1.0f;
             transform.GetComponent<PlayerMovementController>().enabled = false;

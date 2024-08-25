@@ -24,7 +24,6 @@ public class ButtonPushClick : MonoBehaviour {
             if (!isBeingTouched && (transform.localPosition.y > MaxLocalY || transform.localPosition.y < MaxLocalY)) {
                 transform.localPosition = Vector3.Lerp(transform.localPosition, buttonUpPosition, Time.deltaTime * smooth);
             }
-
             if (transform.localPosition.y < MinLocalY) {
                 isClicked = true;
                 transform.localPosition = buttonDownPosition;

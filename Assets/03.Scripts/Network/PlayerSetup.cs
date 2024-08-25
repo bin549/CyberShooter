@@ -2,34 +2,24 @@
 using Photon.Pun;
 using TMPro;
 
-public class PlayerSetup : MonoBehaviourPunCallbacks
-{
+public class PlayerSetup : MonoBehaviourPunCallbacks {
     public TextMeshProUGUI PlayerNameText;
     [SerializeField] private GameObject playerBody;
     [SerializeField] private GameObject cameraRig;
 
-    private void Start()
-    {
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("fight"))
-        {
-            if (photonView.IsMine)
-            {
+    private void Start() {
+        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("fight")) {
+            if (photonView.IsMine) {
                 playerBody.SetActive(false);
-            }
-            else
-            {
+            } else {
                 cameraRig.SetActive(false);
                 playerBody.SetActive(true);
             }
         }
-        else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("cooperation"))
-        {
-            if (photonView.IsMine)
-            {
+        else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("cooperation")) {
+            if (photonView.IsMine) {
                 playerBody.SetActive(false);
-            }
-            else
-            {
+            } else {
                 cameraRig.SetActive(false);
                 playerBody.SetActive(true);
             }
@@ -37,14 +27,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         SetPlayerUI();
     }
 
-    private void SetPlayerUI()
-    {
-        if (PlayerNameText != null)
-        {
+    private void SetPlayerUI() {
+        if (PlayerNameText != null) {
             PlayerNameText.text = photonView.Owner.NickName;
-
-            if (photonView.IsMine)
-            {
+            if (photonView.IsMine) {
                 PlayerNameText.gameObject.SetActive(false);
             }
         }

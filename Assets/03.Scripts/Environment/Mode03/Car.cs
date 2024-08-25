@@ -3,8 +3,7 @@ using System.Collections;
 using Photon.Pun;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Car : EnvironmentItem
-{
+public class Car : EnvironmentItem {
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private float explosionMinRadius = 5f;
     [SerializeField] private float explosionMaxRadius = 5f;
@@ -24,28 +23,24 @@ public class Car : EnvironmentItem
     [SerializeField] private Waypoints[] waypoints;
     [Range(0, 50.0f)] [SerializeField] private int duration = 30;
 
-    private void Awake()
-    {
+    private void Awake() {
         rigidbody = GetComponent<Rigidbody>();
         photonView = GetComponent<PhotonView>();
         waypoints = FindObjectsOfType<Waypoints>();
     }
 
-    protected override void Start()
-    {
+    protected override void Start() {
         base.Start();
         SetWaypoint();
         groundLayer = LayerMask.NameToLayer("Teleportable");
     }
 
-    public void SetWaypoint()
-    {
+    public void SetWaypoint() {
         waypoint = waypoints[Random.Range(0, waypoints.Length)];
         target = waypoint.points[wavepointIndex];
     }
 
-    private void Update()
-    {
+    private void Update() {
         if (isLand)
             return;
         if (target == null)
@@ -55,8 +50,7 @@ public class Car : EnvironmentItem
         Quaternion lookRotation = Quaternion.LookRotation(dir);
         Vector3 rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
         transform.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-        if (Vector3.Distance(transform.position, target.position) <= 0.4f)
-        {
+        if (Vector3.Distance(transform.position, target.position) <= 0.4f) {
             GetNextWaypoint();
             //   isRotate = true;
         }
@@ -68,8 +62,7 @@ public class Car : EnvironmentItem
     }
 
     /*
-    private IEnumerator Rotate()
-    {
+    private IEnumerator Rotate() {
       if (Vector3.Angle(transform.position, target.position) < 90.0f &&  !isLand)
       {
         Vector3 dir = target.position - transform.position;
@@ -83,60 +76,47 @@ public class Car : EnvironmentItem
       isRotate = false;
     }
     */
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Enemy")) {
             collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(100.0f);
         }
-        if (collision.gameObject.CompareTag("Car"))
-        {
+        if (collision.gameObject.CompareTag("Car")) {
             collision.gameObject.GetComponent<Car>().TakeDamage();
         }
-        if (collision.gameObject.CompareTag("Obstacle"))
-        {
+        if (collision.gameObject.CompareTag("Obstacle")) {
             Destroy(collision.gameObject.transform);
         }
-        if (collision.gameObject.CompareTag("Player"))
-        {
+        if (collision.gameObject.CompareTag("Player")) {
             collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(10.0f);
 
         }
-        if (collision.gameObject.layer == groundLayer)
-        {
+        if (collision.gameObject.layer == groundLayer) {
             photonView.RPC("SpawnExplosionEffect", RpcTarget.All);
         }
     }
 
     [PunRPC]
-    private void SpawnExplosionEffect()
-    {
+    private void SpawnExplosionEffect() {
         GameObject effect = GameObject.Instantiate(explosionEffect, transform.position, transform.rotation);
         Destroy(effect, 2f);
     }
 
-    private void Destroy(Transform obstacle)
-    {
+    private void Destroy(Transform obstacle) {
         Barrel barrel = obstacle.gameObject.GetComponent<Barrel>();
-        if (barrel != null)
-        {
+        if (barrel != null) {
             barrel.TakeDamage();
         }
         Destructible destructible = obstacle.gameObject.GetComponent<Destructible>();
-        if (destructible != null)
-        {
+        if (destructible != null) {
             destructible.TakeDamage();
         }
     }
 
-    private void GetNextWaypoint()
-    {
+    private void GetNextWaypoint() {
         //tailAnimator.SetBool("isHide", true);
-        if (wavepointIndex >= waypoint.points.Length - 1)
-        {
+        if (wavepointIndex >= waypoint.points.Length - 1) {
             currentFlyTime++;
-            if (currentFlyTime >= waypoint.flyTime)
-            {
+            if (currentFlyTime >= waypoint.flyTime) {
                 waypoint.End();
                 PhotonNetwork.Destroy(this.gameObject);
             }
@@ -148,45 +128,38 @@ public class Car : EnvironmentItem
     }
 
 
-    private void OnDrawGizmosSelected()
-    {
+    private void OnDrawGizmosSelected() {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, explosionMinRadius);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, explosionMaxRadius);
     }
 
-    public override void TakeDamage()
-    {
+    public override void TakeDamage() {
         Land();
     }
 
-    public void LaserDamage()
-    {
+    public void LaserDamage() {
         photonView.RPC("LaserDamageRPC", RpcTarget.All);
 
     }
 
     [PunRPC]
-    public void LaserDamageRPC()
-    {
+    public void LaserDamageRPC() {
         duration--;
-        if (duration <= 0)
-        {
+        if (duration <= 0) {
             Land();
         }
     }
 
-    public void Land()
-    {
+    public void Land() {
         isLand = true;
         rigidbody.isKinematic = false;
         photonView.RPC("Explosion", RpcTarget.All);
     }
 
     [PunRPC]
-    public void Explosion()
-    {
+    public void Explosion() {
         float rand_Radius = Random.Range(explosionMinRadius, explosionMaxRadius);
         Vector3 randDir = Random.insideUnitSphere * rand_Radius;
         randDir += transform.position;
@@ -198,8 +171,7 @@ public class Car : EnvironmentItem
         Invoke("SetHide", 2.0f);
     }
 
-    public void SetHide()
-    {
+    public void SetHide() {
         tailAnimator.SetBool("isHide", true);
     }
 }

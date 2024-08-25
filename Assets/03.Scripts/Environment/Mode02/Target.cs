@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class Target : MonoBehaviour
-{
+public class Target : MonoBehaviour {
     [SerializeField] private float Speed;
 
     private Rigidbody rigidbody;
@@ -9,8 +8,7 @@ public class Target : MonoBehaviour
     private float leftx, rightx;
     private bool toRight = true;
 
-    private void Start()
-    {
+    private void Start() {
         rigidbody = GetComponent<Rigidbody>();
 
         leftx = leftPoint.position.x;
@@ -19,19 +17,14 @@ public class Target : MonoBehaviour
         Destroy(rightPoint.gameObject);
     }
 
-    private void Update()
-    {
+    private void Update() {
         Movement();
     }
 
-    private void Movement()
-    {
-        if (toRight)
-        {
+    private void Movement() {
+        if (toRight) {
             rigidbody.velocity = new Vector2(Speed, rigidbody.velocity.y);
-        }
-        else
-        {
+        } else {
             rigidbody.velocity = new Vector2(-Speed, rigidbody.velocity.y);
         }
 

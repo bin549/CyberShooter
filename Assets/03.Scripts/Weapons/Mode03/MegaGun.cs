@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class MegaGun : BulletWeapon
-{
-    public enum MegaState
-    {
+public class MegaGun : BulletWeapon {
+    public enum MegaState {
         BeginState,
         ChargeState,
         FinalState,
@@ -38,43 +36,34 @@ public class MegaGun : BulletWeapon
 
     private int WeaponUpgradeIndex = 0;
 
-    private void Start()
-    {
+    private void Start() {
         ResetState();
     }
 
-    protected override void Awake()
-    {
+    protected override void Awake() {
         base.Awake();
         weaponMegaAudio = GetComponent<WeaponMegaAudio>();
         meshRenderer = GetComponent<MeshRenderer>();
         weaponStats = GetComponent<WeaponStats>();
     }
 
-    protected void Update()
-    {
+    protected void Update() {
         base.Update();
         Shoot();
     }
 
-    protected override void Shoot()
-    {
+    protected override void Shoot() {
         elapsedTime += Time.deltaTime;
-        if (OVRInput.GetDown(actionButton, Controller) || Input.GetKeyDown(KeyCode.Mouse0))
-        {
+        if (OVRInput.GetDown(actionButton, Controller) || Input.GetKeyDown(KeyCode.Mouse0)) {
             VibrationManager.Instance.VibrateController(0.10f, 0.04f, 0.4f, Controller);
         }
-        else if (OVRInput.Get(actionButton, Controller) || Input.GetKey(KeyCode.Mouse0))
-        {
-            if (megaState != MegaState.FinalState)
-            {
+        else if (OVRInput.Get(actionButton, Controller) || Input.GetKey(KeyCode.Mouse0)) {
+            if (megaState != MegaState.FinalState) {
                 ChangeState();
             }
         }
-        else if (OVRInput.GetUp(actionButton, Controller) || Input.GetKeyUp(KeyCode.Mouse0))
-        {
-            if (elapsedTime > fireRate)
-            {
+        else if (OVRInput.GetUp(actionButton, Controller) || Input.GetKeyUp(KeyCode.Mouse0)) {
+            if (elapsedTime > fireRate) {
                 Shooting();
                 durationTime = 0;
                 elapsedTime = 0;
@@ -83,11 +72,9 @@ public class MegaGun : BulletWeapon
         }
     }
 
-    private void ChangeState()
-    {
+    private void ChangeState() {
         durationTime += Time.deltaTime;
-        switch (megaState)
-        {
+        switch (megaState) {
             case MegaState.BeginState:
                 if (durationTime > chargeBeginTime)
                 {
@@ -107,15 +94,12 @@ public class MegaGun : BulletWeapon
         }
     }
 
-    private void ResetState()
-    {
+    private void ResetState() {
         megaState = MegaState.BeginState;
     }
 
-    private void Shooting()
-    {
-        switch (megaState)
-        {
+    private void Shooting() {
+        switch (megaState) {
             case MegaState.BeginState:
                 photonView.RPC("SpawnBullet", RpcTarget.All);
                 break;
@@ -132,16 +116,14 @@ public class MegaGun : BulletWeapon
     }
 
     [PunRPC]
-    private void SpawnChargeEffect()
-    {
+    private void SpawnChargeEffect() {
         chargeEffect = Instantiate(chargeEffectPrefab, chargePoint.position, chargePoint.rotation) as GameObject;
         chargeEffect.transform.parent = chargePoint;
         weaponMegaAudio.PlayChargeSound();
     }
 
     [PunRPC]
-    private void SpawnFinalEffect()
-    {
+    private void SpawnFinalEffect() {
         Destroy(chargeEffect);
         finalEffect = Instantiate(finalEffectPrefab, finalEffectPoint.position, finalEffectPoint.rotation) as GameObject;
         finalEffect.transform.parent = firePoint;
@@ -150,16 +132,14 @@ public class MegaGun : BulletWeapon
 
 
     [PunRPC]
-    private void SpawnBullet()
-    {
+    private void SpawnBullet() {
         PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation);
         weaponMegaAudio.PlayShootSound();
         VibrationManager.Instance.VibrateController(0.15f, 0.1f, 1.3f, Controller);
     }
 
     [PunRPC]
-    private void SpawnChargeBullet()
-    {
+    private void SpawnChargeBullet() {
         Destroy(chargeEffect);
         PhotonNetwork.Instantiate(chargeBulletPrefab.name, firePoint.position, firePoint.rotation);
         weaponMegaAudio.PlayShootChargeSound();
@@ -167,8 +147,7 @@ public class MegaGun : BulletWeapon
     }
 
     [PunRPC]
-    private void SpawnFinalBullet()
-    {
+    private void SpawnFinalBullet() {
         Destroy(finalEffect);
         PhotonNetwork.Instantiate(finalBulletPrefab.name, firePoint.position, firePoint.rotation);
         weaponMegaAudio.PlayShootFinalSound();
@@ -176,8 +155,7 @@ public class MegaGun : BulletWeapon
     }
 
 
-    public override void UpgradeWeapon()
-    {
+    public override void UpgradeWeapon() {
         base.UpgradeWeapon();
         chargeBulletPrefab = chargeBulletPrefabs[WeaponUpgradeIndex];
         finalBulletPrefab = finalBulletPrefabs[WeaponUpgradeIndex];

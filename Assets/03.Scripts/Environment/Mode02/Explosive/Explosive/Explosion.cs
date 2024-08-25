@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Explosion : MonoBehaviour
-{
+public class Explosion : MonoBehaviour {
     //public Transform ExplodePrefab;
     //public float minTime = 0.05f;
     //public float maxTime = 0.25f;

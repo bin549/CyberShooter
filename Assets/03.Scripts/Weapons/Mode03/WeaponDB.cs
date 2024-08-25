@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class WeaponDB : Singleton<WeaponDB>
-{
+public class WeaponDB : Singleton<WeaponDB> {
     public List<ShootWeapon> shootWeapons;
     public List<ThrowWeapon> throwWeapons;
     public List<MeleeWeapon> meleeWeapons;
@@ -12,29 +11,23 @@ public class WeaponDB : Singleton<WeaponDB>
 
     public int WeaponLevel = 0;
 
-    private void Awake()
-    {
+    private void Awake() {
         //  DontDestroyOnLoad(this);
     }
 
-    public ShootWeapon GetShootWeapon()
-    {
-        if (shootWeaponObtainedIndex >= shootWeapons.Count)
-        {
+    public ShootWeapon GetShootWeapon() {
+        if (shootWeaponObtainedIndex >= shootWeapons.Count) {
             return null;
         }
         return shootWeapons[shootWeaponObtainedIndex++];
     }
 
-    public ThrowWeapon GetThrowWeapon()
-    {
+    public ThrowWeapon GetThrowWeapon() {
         return throwWeapons[UnityEngine.Random.Range(0, throwWeapons.Count)];
     }
 
-    public MeleeWeapon GetMeleeWeapon()
-    {
-        if (meleeWeaponObtainedIndex >= shootWeapons.Count)
-        {
+    public MeleeWeapon GetMeleeWeapon() {
+        if (meleeWeaponObtainedIndex >= shootWeapons.Count) {
             return null;
         }
         return meleeWeapons[meleeWeaponObtainedIndex++];

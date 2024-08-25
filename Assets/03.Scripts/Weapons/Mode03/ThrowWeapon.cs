@@ -1,14 +1,12 @@
 ﻿using UnityEngine;
 
-public class ThrowWeapon : UpgradeWeaponController
-{
+public class ThrowWeapon : UpgradeWeaponController {
     protected Rigidbody rigidbody;
     public float throwGain = 1.0f;
     private Vector3 m_anchorOffsetPosition;
     private Quaternion m_anchorOffsetRotation;
 
-    protected void Throw()
-    {
+    protected void Throw() {
         var weaponControllerManager = transform.parent.gameObject.GetComponent<WeaponControllerManager>();
         transform.parent = null;
 

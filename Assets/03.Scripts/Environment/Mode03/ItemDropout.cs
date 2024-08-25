@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class ItemDropout : MonoBehaviour
-{
+public class ItemDropout : MonoBehaviour {
 
 
 }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-public class PistolBullet : ShootBullet
-{
+public class PistolBullet : ShootBullet {
    
 }

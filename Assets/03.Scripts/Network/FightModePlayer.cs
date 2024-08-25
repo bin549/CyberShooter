@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Player/FightMode Player")]
-public class FightModePlayer : ScriptableObject
-{
+public class FightModePlayer : ScriptableObject {
     public string playerName;
     public Sprite playerSprite;
 

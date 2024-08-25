@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class MySqlEntity
-{
+public class MySqlEntity {
     public int state = 0;
     public ConnectType connectType;
     public MySqlConnection mySqlConnection;
@@ -15,8 +14,7 @@ public class MySqlEntity
     public MySqlDataReader mySqlDataReader;
     public bool Result = false;
 
-    public MySqlEntity(ConnectType connectType)
-    {
+    public MySqlEntity(ConnectType connectType) {
         this.connectType = connectType;
         switch (connectType)
         {
@@ -29,8 +27,7 @@ public class MySqlEntity
         }
     }
 
-    public void CreateCMD(string sql)
-    {
+    public void CreateCMD(string sql) {
         mySqlCommand = new MySqlCommand(sql, mySqlConnection);
         try
         {
@@ -43,8 +40,7 @@ public class MySqlEntity
         }
     }
 
-    internal void Reset()
-    {
+    internal void Reset() {
         Result = false;
         mySqlCommand = null;
         mySqlDataReader = null;
@@ -52,8 +48,7 @@ public class MySqlEntity
         mySqlConnection.Close();
     }
 
-    internal void ExecuteNonQuery()
-    {
+    internal void ExecuteNonQuery() {
         try
         {
             Result = mySqlCommand.ExecuteNonQuery() > 0 ? true : false;
@@ -66,8 +61,7 @@ public class MySqlEntity
         state = 1;
     }
 
-    internal void ExecuteReader()
-    {
+    internal void ExecuteReader() {
         try
         {
             mySqlDataReader = mySqlCommand.ExecuteReader();

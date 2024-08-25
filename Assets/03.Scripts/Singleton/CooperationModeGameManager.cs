@@ -2,8 +2,7 @@
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-public class CooperationModeGameManager : MonoBehaviourPunCallbacks
-{
+public class CooperationModeGameManager : MonoBehaviourPunCallbacks {
     public GameObject[] PlayerPrefabs;
     [SerializeField] private bool gameStart = false;
     [SerializeField] private bool gameOver = false;
@@ -18,18 +17,14 @@ public class CooperationModeGameManager : MonoBehaviourPunCallbacks
 
     public WaveSpawner waveSpawner;
 
-    private void Awake()
-    {
+    private void Awake() {
         waveSpawner = GameObject.FindObjectOfType<WaveSpawner>();
     }
 
-    private void Start()
-    {
-        if (PhotonNetwork.IsConnectedAndReady)
-        {
+    private void Start() {
+        if (PhotonNetwork.IsConnectedAndReady) {
             object playerSelectionNumber;
-            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PlayerStatus.PLAYER_SELECTION_NUMBER, out playerSelectionNumber))
-            {
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PlayerStatus.PLAYER_SELECTION_NUMBER, out playerSelectionNumber)) {
                 int randomPosition_x = Random.Range(14, 30);
                 int randomPosition_z = Random.Range(-30, -22);
                 PhotonNetwork.Instantiate(PlayerPrefabs[(int)playerSelectionNumber].name, new Vector3(randomPosition_x, -2, randomPosition_z), Quaternion.identity);
@@ -37,55 +32,44 @@ public class CooperationModeGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public float WaveIndex()
-    {
+    public float WaveIndex() {
         return waveSpawner.WaveIndex;
     }
 
-    private void Update()
-    {
+    private void Update() {
         if (!HasWeapon)
             return;
         countdown -= Time.deltaTime;
         countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
-        if (countdown <= 0f && !GameStart)
-        {
+        if (countdown <= 0f && !GameStart) {
             GameStart = true;
             waveSpawner.NextWave();
         }
-
         if (GameIsOver)
             return;
-
-        /*if (PlayerStats.Lives <= 0)
-        {
+        /*if (PlayerStats.Lives <= 0) {
             EndGame();
         }*/
     }
 
-    public void OnQuitMatchButtonClicked()
-    {
+    public void OnQuitMatchButtonClicked() {
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
+    public override void OnLeftRoom() {
         SceneManager.LoadScene("00-Choose-2");
     }
 
-    private void EndGame()
-    {
+    private void EndGame() {
         GameIsOver = true;
     }
 
-    public void WinLevel()
-    {
+    public void WinLevel() {
         GameIsOver = true;
         Debug.Log("Player Won!");
     }
 
-    public void PlayerLeaveRoom()
-    {
+    public void PlayerLeaveRoom() {
         PhotonNetwork.LeaveRoom();
     }
 }

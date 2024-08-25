@@ -3,8 +3,7 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
-public class FightModeGameManager : MonoBehaviourPunCallbacks
-{
+public class FightModeGameManager : MonoBehaviourPunCallbacks {
     public GameObject[] PlayerPrefabs;
 
     [SerializeField] private bool gameStart = false;
@@ -15,13 +14,10 @@ public class FightModeGameManager : MonoBehaviourPunCallbacks
 
     public List<ReadyPoint> readyPoints { get; private set; }
 
-    private void Start()
-    {
-        if (PhotonNetwork.IsConnectedAndReady)
-        {
+    private void Start() {
+        if (PhotonNetwork.IsConnectedAndReady) {
             object playerSelectionNumber;
-            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PlayerStatus.PLAYER_SELECTION_NUMBER, out playerSelectionNumber))
-            {
+            if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PlayerStatus.PLAYER_SELECTION_NUMBER, out playerSelectionNumber)) {
                 int randomPosition = Random.Range(-15, 15);
                 int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
                 Vector3 instantiatePosition = readyPoints[actorNumber - 1].transform.position;
@@ -30,13 +26,11 @@ public class FightModeGameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnQuitMatchButtonClicked()
-    {
+    public void OnQuitMatchButtonClicked() {
         PhotonNetwork.LeaveRoom();
     }
 
-    public override void OnLeftRoom()
-    {
+    public override void OnLeftRoom() {
         SceneManager.LoadScene(SceneNames.CHOOSE);
     }
 }

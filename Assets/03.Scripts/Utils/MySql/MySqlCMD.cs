@@ -5,11 +5,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-public class MySqlCMD
-{
+public class MySqlCMD {
     #region Set
-    public static string Set(string column, long value, bool isFirst = false)
-    {
+    public static string Set(string column, long value, bool isFirst = false) {
         if (isFirst == false)
             return ",`" + column + "` = " + value.ToString() + " ";
         else
@@ -17,8 +15,7 @@ public class MySqlCMD
             return "`" + column + "` = " + value.ToString() + " ";
         }
     }
-    public static string Set(string column, ulong value, bool isFirst = false)
-    {
+    public static string Set(string column, ulong value, bool isFirst = false) {
         if (isFirst == false)
             return ",`" + column + "` = " + value.ToString() + " ";
         else
@@ -26,8 +23,7 @@ public class MySqlCMD
             return "`" + column + "` = " + value.ToString() + " ";
         }
     }
-    public static string Set(string column, string value, bool isFirst = false)
-    {
+    public static string Set(string column, string value, bool isFirst = false) {
         if (isFirst == false)
         {
             return ",`" + column + "` = '" + MySqlEscape(value) + "' ";
@@ -38,8 +34,7 @@ public class MySqlCMD
         }
 
     }
-    public static string Set(string column, bool value, bool isFirst = false)
-    {
+    public static string Set(string column, bool value, bool isFirst = false) {
         if (isFirst == false)
         {
             return ",`" + column + "` = " + (value ? "1" : "0") + " ";
@@ -49,8 +44,7 @@ public class MySqlCMD
             return "`" + column + "` = " + (value ? "1" : "0") + " ";
         }
     }
-    public static string Set(string column, object value, bool isFirst = false)
-    {
+    public static string Set(string column, object value, bool isFirst = false) {
         if (value is bool)
         {
             return Set(column, (bool)value);
@@ -62,12 +56,10 @@ public class MySqlCMD
     }
     #endregion
     #region Where
-    public static string Where(string column, long value)
-    {
+    public static string Where(string column, long value) {
         return " WHERE `" + column + "` = " + value;
     }
-    public static string Where(string column, long value, int greater)
-    {
+    public static string Where(string column, long value, int greater) {
         string _command = "";
         switch (greater)
         {
@@ -86,38 +78,30 @@ public class MySqlCMD
         }
         return _command;
     }
-    public static string Where(string column, ulong value)
-    {
+    public static string Where(string column, ulong value) {
         return " WHERE `" + column + "` = " + value;
     }
-    public static string Where(string column, string value)
-    {
+    public static string Where(string column, string value) {
         return " WHERE `" + column + "` = '" + MySqlEscape(value) + "'";
     }
-    public static string Where(string column, bool value)
-    {
+    public static string Where(string column, bool value) {
         return " WHERE `" + column + "` = " + (value ? "1" : "0");
     }
     #endregion
     #region And
-    public static string And(string column, long value)
-    {
+    public static string And(string column, long value) {
         return " AND `" + column + "` = " + value;
     }
-    public static string And(string column, ulong value)
-    {
+    public static string And(string column, ulong value) {
         return " AND `" + column + "` = " + value;
     }
-    public static string And(string column, string value)
-    {
+    public static string And(string column, string value) {
         return " AND `" + column + "` = '" + MySqlEscape(value) + "'";
     }
-    public static string And(string column, bool value)
-    {
+    public static string And(string column, bool value) {
         return " AND `" + column + "` = " + (value ? "1" : "0");
     }
-    public static string And(string column, long value, int greater)
-    {
+    public static string And(string column, long value, int greater) {
         string _command = "";
         switch (greater)
         {
@@ -138,26 +122,21 @@ public class MySqlCMD
     }
     #endregion
     #region Or
-    public static string Or(string column, long value)
-    {
+    public static string Or(string column, long value) {
         return " Or `" + column + "` = " + value;
     }
-    public static string Or(string column, ulong value)
-    {
+    public static string Or(string column, ulong value) {
         return " Or `" + column + "` = " + value;
     }
-    public static string Or(string column, string value)
-    {
+    public static string Or(string column, string value) {
         return " Or `" + column + "` = '" + MySqlEscape(value) + "'";
     }
-    public static string Or(string column, bool value)
-    {
+    public static string Or(string column, bool value) {
         return " Or `" + column + "` = " + (value ? "1" : "0");
     }
 
 
-    public static string Or(string column, long value, int greater)
-    {
+    public static string Or(string column, long value, int greater) {
         string _command = "";
         switch (greater)
         {
@@ -178,8 +157,7 @@ public class MySqlCMD
     }
     #endregion
     #region Order
-    public static string Order(string column, bool isDESC = false)
-    {
+    public static string Order(string column, bool isDESC = false) {
         // _command = _command.Append("ORDER BY " + column + "");
         string _command = "";
         if (isDESC == false)
@@ -193,8 +171,7 @@ public class MySqlCMD
         return _command;
     }
 
-    public static string LIMIT(int start, int end)
-    {
+    public static string LIMIT(int start, int end) {
         if (start > 0)
         {
             start = start - 1;
@@ -207,8 +184,7 @@ public class MySqlCMD
     }
     #endregion
 
-    public static string MySqlEscape(string usString)
-    {
+    public static string MySqlEscape(string usString) {
         if (usString == null) return null;
         // SQL Encoding for MySQL Recommended here:
         // http://au.php.net/manual/en/function.mysql-real-escape-string.php

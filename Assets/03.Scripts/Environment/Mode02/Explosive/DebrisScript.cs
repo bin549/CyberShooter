@@ -8,8 +8,7 @@ public class DebrisScript : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         debrisSounds = ConfigurationScript.debrisSounds;
-        if (collision.relativeVelocity.magnitude > 50)
-        {
+        if (collision.relativeVelocity.magnitude > 50) {
             audioSource.clip = debrisSounds[Random.Range(0, debrisSounds.Length)];
             audioSource.Play();
         }

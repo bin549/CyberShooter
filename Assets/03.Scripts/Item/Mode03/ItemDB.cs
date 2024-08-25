@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class ItemDB : MonoBehaviour
-{
+public class ItemDB : MonoBehaviour {
     [SerializeField] private Dropout shootWeaponDropout;
     [SerializeField] private Dropout throwWeaponDropout;
     [SerializeField] private Dropout meleeWeaponDropout;
@@ -14,8 +13,7 @@ public class ItemDB : MonoBehaviour
 
     public PowerupHealth PowerupHealth { get => powerupHealth; set => powerupHealth = value; }
 
-    public Gem GetGem(int index)
-    {
+    public Gem GetGem(int index) {
         return gems[index];
     }
 }

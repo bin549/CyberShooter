@@ -1,14 +1,11 @@
 ﻿using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour
-    where T : Component
-{
+    where T : Component {
     private static T instance;
 
-    public static T Instance
-    {
-        get
-        {
+    public static T Instance {
+        get {
             if (instance == null)
             {
                 var objs = FindObjectsOfType(typeof(T)) as T[];

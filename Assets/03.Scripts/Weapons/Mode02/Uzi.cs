@@ -89,8 +89,7 @@ public class Uzi : ComplicateGun, ICanHolster {
                 if (transform.parent.transform.parent.name == "CustomHandRight")
                 {
                     VibrationManager.Instance.VibrateController(0.25f, 0.4f, 0.8f, OVRInput.Controller.RTouch);
-                }
-                else if (transform.parent.transform.parent.name == "CustomHandLeft")
+                } else if (transform.parent.transform.parent.name == "CustomHandLeft")
                 {
                     VibrationManager.Instance.VibrateController(0.25f, 0.4f, 0.8f, OVRInput.Controller.LTouch);
                 }
@@ -99,8 +98,7 @@ public class Uzi : ComplicateGun, ICanHolster {
                 audioSource.Stop();
                 autoFiring = true;
             }
-        }
-        else if (Cocked && rounds <= 0) {
+        } else if (Cocked && rounds <= 0) {
             Cocked = false;
             audioSource.Stop();
             audioSource.PlayOneShot(fireNoAmmoSound);

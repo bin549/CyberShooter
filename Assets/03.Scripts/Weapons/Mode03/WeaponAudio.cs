@@ -1,31 +1,26 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class WeaponAudio : MonoBehaviour
-{
+public class WeaponAudio : MonoBehaviour {
     protected AudioSource audioSource;
     [SerializeField] protected AudioClip shootAudio;
     [SerializeField] protected AudioClip upgradeAudio;
 
-    private void Awake()
-    {
+    private void Awake() {
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void PlayShootSound()
-    {
+    public void PlayShootSound() {
         audioSource.clip = shootAudio;
         audioSource.Play();
     }
 
-    public void PlayUpgradeSound()
-    {
+    public void PlayUpgradeSound() {
         audioSource.clip = upgradeAudio;
         audioSource.Play();
     }
 
-    public void Stop()
-    {
+    public void Stop() {
         audioSource.Stop();
     }
 }

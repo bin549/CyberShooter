@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class LocomotionSetup : MonoBehaviour {
-
     private LocomotionController locomotionController;
     private LocomotionTeleport teleportController {
         get {
@@ -10,16 +9,13 @@ public class LocomotionSetup : MonoBehaviour {
         }
     }
 
-
     private void Awake() {
         locomotionController = FindObjectOfType<LocomotionController>();
     }
 
-
     public void EnabledTeleport(bool enabled) {
         locomotionController.enabled = enabled;
     }
-
 
     public void SetupWalkOnly() {
       locomotionController.gameObject.SetActive(false);
@@ -28,7 +24,6 @@ public class LocomotionSetup : MonoBehaviour {
         locomotionController.PlayerController.EnableLinearMovement = true;
         locomotionController.PlayerController.RotationEitherThumbstick = false;*/
     }
-
 
     public void SetupTeleportOnly() {
       locomotionController.gameObject.SetActive(true);

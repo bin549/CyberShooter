@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class ComplicateGunController : MonoBehaviour
-{
+public class ComplicateGunController : MonoBehaviour {
     [SerializeField] private GameObject leftHandParent;
     [SerializeField] private GameObject rightHandParent;
     [SerializeField] private GameObject leftHandModel;
@@ -9,13 +8,11 @@ public class ComplicateGunController : MonoBehaviour
 
     private HandAnimationController handAnimationController;
 
-    private void Start()
-    {
+    private void Start() {
         handAnimationController = GetComponent<HandAnimationController>();
     }
 
-    private void Update()
-    {
+    private void Update() {
         Fire();
         StopFullAutoFire();
         ReleaseMagazine();
@@ -23,23 +20,18 @@ public class ComplicateGunController : MonoBehaviour
         ToggleFire();
     }
 
-    private void StopFullAutoFire()
-    {
-        if (OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
-        {
+    private void StopFullAutoFire() {
+        if (OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch)) {
             var uziScript = CheckIfUziInHand(rightHandParent);
-            if (uziScript != null)
-            {
+            if (uziScript != null) {
                 handAnimationController.SetRightReleaseTriggerUzi();
                 uziScript.autoFiring = false;
                 uziScript.stopAutoFiring = true;
             }
         }
-        if (OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
-        {
+        if (OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch)) {
             var uziScript = CheckIfUziInHand(leftHandParent);
-            if (uziScript != null)
-            {
+            if (uziScript != null) {
                 handAnimationController.SetLeftReleaseTriggerUzi();
                 uziScript.autoFiring = false;
                 uziScript.stopAutoFiring = true;
@@ -47,20 +39,15 @@ public class ComplicateGunController : MonoBehaviour
         }
     }
 
-    private void ToggleFire()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch))
-        {
+    private void ToggleFire() {
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch)) {
             var UziScriptLeftHand = CheckIfUziInHand(leftHandParent);
 
-            if (UziScriptLeftHand != null)
-            {
-                if (UziScriptLeftHand.Fire)
-                {
+            if (UziScriptLeftHand != null) {
+                if (UziScriptLeftHand.Fire) {
                     UziScriptLeftHand.Fire = false;
                 }
-                else
-                {
+                else {
                     VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.LTouch);
                     UziScriptLeftHand.audioSource.Stop();
                     UziScriptLeftHand.Fire = true;
@@ -69,16 +56,12 @@ public class ComplicateGunController : MonoBehaviour
                 }
             }
         }
-        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch))
-        {
+        if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
             var UziScriptRightHand = CheckIfUziInHand(rightHandParent);
 
-            if (UziScriptRightHand.Fire)
-            {
+            if (UziScriptRightHand.Fire) {
                 UziScriptRightHand.Fire = false;
-            }
-            else
-            {
+            } else {
                 VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.RTouch);
                 UziScriptRightHand.audioSource.Stop();
                 UziScriptRightHand.Fire = true;
@@ -88,18 +71,13 @@ public class ComplicateGunController : MonoBehaviour
         }
     }
 
-    private void CockBack()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.LTouch))
-        {
+    private void CockBack() {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.LTouch)) {
             var DeagleScriptLeftHand = CheckIfDeagleInHand(leftHandParent);
             var DeagleScriptRightHand = CheckIfDeagleInHand(rightHandParent);
-            if (DeagleScriptLeftHand == null && DeagleScriptRightHand != null)
-            {
+            if (DeagleScriptLeftHand == null && DeagleScriptRightHand != null) {
                 var distanceToCockBackPosition = Vector3.Distance(DeagleScriptRightHand.cockBackPosition.position, leftHandModel.transform.position);
-
-                if (distanceToCockBackPosition < 0.1f && !DeagleScriptRightHand.Cocked)
-                {
+                if (distanceToCockBackPosition < 0.1f && !DeagleScriptRightHand.Cocked) {
                     handAnimationController.SetLeftCockBack(true);
                     DeagleScriptRightHand.CockBack = true;
                     leftHandModel.transform.parent = DeagleScriptRightHand.cockBackPosition;
@@ -108,11 +86,9 @@ public class ComplicateGunController : MonoBehaviour
             }
             var UziScriptLeftHand = CheckIfUziInHand(leftHandParent);
             var UziScriptRightHand = CheckIfUziInHand(rightHandParent);
-            if (UziScriptLeftHand == null && UziScriptRightHand != null)
-            {
+            if (UziScriptLeftHand == null && UziScriptRightHand != null) {
                 var distanceToCockBackPosition = Vector3.Distance(UziScriptRightHand.cockBackPosition.position, leftHandModel.transform.position);
-                if (distanceToCockBackPosition < 0.1f && !UziScriptRightHand.Cocked)
-                {
+                if (distanceToCockBackPosition < 0.1f && !UziScriptRightHand.Cocked) {
                     handAnimationController.SetLeftCockBack(true);
                     UziScriptRightHand.CockBack = true;
                     leftHandModel.transform.parent = UziScriptRightHand.cockBackPosition;
@@ -120,15 +96,12 @@ public class ComplicateGunController : MonoBehaviour
                 }
             }
         }
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch))
-        {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, OVRInput.Controller.RTouch)) {
             var DeagleScriptLeftHand = CheckIfDeagleInHand(leftHandParent);
             var DeagleScriptRightHand = CheckIfDeagleInHand(rightHandParent);
-            if (DeagleScriptLeftHand != null && DeagleScriptRightHand == null)
-            {
+            if (DeagleScriptLeftHand != null && DeagleScriptRightHand == null) {
                 var distanceToCockBackPosition = Vector3.Distance(DeagleScriptLeftHand.cockBackPosition.position, rightHandModel.transform.position);
-                if (distanceToCockBackPosition < 0.1f && !DeagleScriptLeftHand.Cocked)
-                {
+                if (distanceToCockBackPosition < 0.1f && !DeagleScriptLeftHand.Cocked) {
                     handAnimationController.SetRightCockBack(true);
                     DeagleScriptLeftHand.CockBack = true;
                     rightHandModel.transform.parent = DeagleScriptLeftHand.cockBackPosition;
@@ -137,11 +110,9 @@ public class ComplicateGunController : MonoBehaviour
             }
             var UziScriptLeftHand = CheckIfUziInHand(leftHandParent);
             var UziScriptRightHand = CheckIfUziInHand(rightHandParent);
-            if (UziScriptLeftHand != null && UziScriptRightHand == null)
-            {
+            if (UziScriptLeftHand != null && UziScriptRightHand == null) {
                 var distanceToCockBackPosition = Vector3.Distance(UziScriptLeftHand.cockBackPosition.position, rightHandModel.transform.position);
-                if (distanceToCockBackPosition < 0.1f && !UziScriptLeftHand.Cocked)
-                {
+                if (distanceToCockBackPosition < 0.1f && !UziScriptLeftHand.Cocked) {
                     handAnimationController.SetRightCockBack(true);
                     UziScriptLeftHand.CockBack = true;
                     rightHandModel.transform.parent = UziScriptLeftHand.cockBackPosition;
@@ -151,92 +122,70 @@ public class ComplicateGunController : MonoBehaviour
         }
     }
 
-    private void Fire()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) || Input.GetKeyDown(KeyCode.Mouse0))
-        {
+    private void Fire() {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) || Input.GetKeyDown(KeyCode.Mouse0)) {
             var DeagleScript = CheckIfDeagleInHand(rightHandParent);
             var uziScript = CheckIfUziInHand(rightHandParent);
-            if (DeagleScript != null)
-            {
+            if (DeagleScript != null) {
                 DeagleScript.Fire = true;
                 handAnimationController.SetRightSqueezeTriggerDeagle();
-            }
-            else if (uziScript != null)
-            {
+            } else if (uziScript != null) {
                 handAnimationController.SetRightSqueezeTriggerUzi();
                 uziScript.Fire = true;
             }
         }
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch))
-        {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.LTouch)) {
             var DeagleScript = CheckIfDeagleInHand(leftHandParent);
             var uziScript = CheckIfUziInHand(leftHandParent);
-            if (DeagleScript != null)
-            {
+            if (DeagleScript != null) {
                 DeagleScript.Fire = true;
                 handAnimationController.SetLeftSqueezeTriggerDeagle();
-            }
-            else if (uziScript != null)
-            {
+            } else if (uziScript != null) {
                 handAnimationController.SetLeftSqueezeTriggerUzi();
                 uziScript.Fire = true;
             }
         }
     }
 
-    private void ReleaseMagazine()
-    {
-        if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch))
-        {
+    private void ReleaseMagazine() {
+        if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.RTouch)) {
             var deagleScript = CheckIfDeagleInHand(rightHandParent);
             var uziScript = CheckIfUziInHand(rightHandParent);
-            if (deagleScript != null && deagleScript.magazine != null)
-            {
+            if (deagleScript != null && deagleScript.magazine != null) {
                 deagleScript.ReleaseMagazine = true;
-            }
-            else if (uziScript != null && uziScript.magazine != null)
-            {
+            } else if (uziScript != null && uziScript.magazine != null) {
                 uziScript.ReleaseMagazine = true;
             }
         }
-        if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.LTouch))
-        {
+        if (OVRInput.GetDown(OVRInput.Button.One, OVRInput.Controller.LTouch)) {
             var DeagleScript = CheckIfDeagleInHand(leftHandParent);
             var uziScript = CheckIfUziInHand(leftHandParent);
-            if (DeagleScript != null)
-            {
+            if (DeagleScript != null) {
                 DeagleScript.ReleaseMagazine = true;
-            }
-            else if (uziScript != null && uziScript.magazine != null)
-            {
+            } else if (uziScript != null && uziScript.magazine != null) {
                 uziScript.ReleaseMagazine = true;
             }
         }
     }
 
-    private DesertEagle CheckIfDeagleInHand(GameObject handParent)
-    {
+    private DesertEagle CheckIfDeagleInHand(GameObject handParent) {
         var DeagleScript = handParent.GetComponentInChildren<DesertEagle>();
         return DeagleScript;
     }
 
-    private Uzi CheckIfUziInHand(GameObject handParent)
-    {
+    private Uzi CheckIfUziInHand(GameObject handParent) {
         var UziScript = handParent.GetComponentInChildren<Uzi>();
         return UziScript;
     }
 
-    private void ResetLeftHandModel()
-    {
+    private void ResetLeftHandModel() {
         handAnimationController.SetLeftCockBack(false);
         leftHandModel.transform.parent = leftHandParent.transform;
         leftHandModel.transform.localPosition = Vector3.zero;
         leftHandModel.transform.rotation = Quaternion.Euler(leftHandParent.transform.rotation.eulerAngles + new Vector3(0, 0, 90));
     }
 
-    private void ResetRightHandModel()
-    {
+    private void ResetRightHandModel() {
         handAnimationController.SetRightCockBack(false);
         rightHandModel.transform.parent = rightHandParent.transform;
         rightHandModel.transform.localPosition = Vector3.zero;

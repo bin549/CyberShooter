@@ -1,8 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class WeaponStats : MonoBehaviour
-{
+public class WeaponStats : MonoBehaviour {
     public int currentLevel = 0;
     public int maxLevel = 5;
     public int currentEXP = 0;
@@ -11,36 +10,29 @@ public class WeaponStats : MonoBehaviour
     [SerializeField] private GameObject[] levelUpEffects;
     public PhotonView photonView;
 
-    private void Awake()
-    {
+    private void Awake() {
         photonView = GetComponent<PhotonView>();
     }
 
-    private void Start()
-    {
+    private void Start() {
         expToNextLevel = new int[maxLevel];
         expToNextLevel[0] = baseEXP;
-        for (int i = 1; i < expToNextLevel.Length; i++)
-        {
+        for (int i = 1; i < expToNextLevel.Length; i++) {
             expToNextLevel[i] = Mathf.FloorToInt(expToNextLevel[i - 1] * 1.25f);
         }
     }
 
-    public bool AddEXP(int expToAdd)
-    {
+    public bool AddEXP(int expToAdd) {
         currentEXP += expToAdd;
-        if (currentLevel < maxLevel)
-        {
-            if (currentEXP >= expToNextLevel[currentLevel])
-            {
+        if (currentLevel < maxLevel) {
+            if (currentEXP >= expToNextLevel[currentLevel]) {
                 currentEXP -= expToNextLevel[currentLevel];
                 photonView.RPC("SpawnLevelUpEffect", RpcTarget.All);
                 currentLevel++;
                 return true;
             }
         }
-        if (currentLevel >= maxLevel)
-        {
+        if (currentLevel >= maxLevel) {
             currentEXP = 0;
             return false;
         }
@@ -48,8 +40,7 @@ public class WeaponStats : MonoBehaviour
     }
 
     [PunRPC]
-    private void SpawnLevelUpEffect()
-    {
+    private void SpawnLevelUpEffect() {
         GameObject levelUpEffect = GameObject.Instantiate(levelUpEffects[currentLevel], transform.position, transform.rotation);
         Destroy(levelUpEffect, 1.5f);
     }

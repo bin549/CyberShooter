@@ -2,14 +2,12 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Configure/MaterialCtrlData")]
-public class MaterialCtrl : ScriptableObject
-{
+public class MaterialCtrl : ScriptableObject {
     public List<ImpactMaterial> ImpactMaterialData;
 }
 
 [System.Serializable]
-public class ImpactMaterial
-{
+public class ImpactMaterial {
     public string Tag;
     public GameObject ImpactHitEffectPrefab;
 }

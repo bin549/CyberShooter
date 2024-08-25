@@ -1,32 +1,27 @@
 using UnityEngine;
 
-public class WeaponMegaAudio : WeaponAudio
-{
+public class WeaponMegaAudio : WeaponAudio {
     [SerializeField] private AudioClip chargeAudio;
     [SerializeField] private AudioClip finalAudio;
     [SerializeField] private AudioClip shootChargeAudio;
     [SerializeField] private AudioClip shootFinalAudio;
 
-    public void PlayChargeSound()
-    {
+    public void PlayChargeSound() {
         audioSource.clip = chargeAudio;
         audioSource.Play();
     }
 
-    public void PlayFinalSound()
-    {
+    public void PlayFinalSound() {
         audioSource.clip = finalAudio;
         audioSource.Play();
     }
 
-    public void PlayShootChargeSound()
-    {
+    public void PlayShootChargeSound() {
         audioSource.clip = shootChargeAudio;
         audioSource.Play();
     }
 
-    public void PlayShootFinalSound()
-    {
+    public void PlayShootFinalSound() {
         audioSource.clip = shootFinalAudio;
         audioSource.Play();
     }

@@ -1,34 +1,27 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class PlayerSelection : MonoBehaviour
-{
+public class PlayerSelection : MonoBehaviour {
     public GameObject[] selectablePlayers;
 
     public int playerSelectionNumber;
 
-    private void Start()
-    {
+    private void Start() {
         playerSelectionNumber = 0;
         ActivatePlayer(playerSelectionNumber);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.A)) {
             PreviousPlayer();
         }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
+        if (Input.GetKeyDown(KeyCode.D)) {
             NextPlayer();
         }
     }
 
-    private void ActivatePlayer(int x)
-    {
-        foreach (GameObject selectablePlayer in selectablePlayers)
-        {
+    private void ActivatePlayer(int x) {
+        foreach (GameObject selectablePlayer in selectablePlayers) {
             selectablePlayer.SetActive(false);
         }
         selectablePlayers[x].SetActive(true);
@@ -36,21 +29,17 @@ public class PlayerSelection : MonoBehaviour
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerSelectionProp);
     }
 
-    public void NextPlayer()
-    {
+    public void NextPlayer() {
         playerSelectionNumber += 1;
-        if (playerSelectionNumber >= selectablePlayers.Length)
-        {
+        if (playerSelectionNumber >= selectablePlayers.Length) {
             playerSelectionNumber = 0;
         }
         ActivatePlayer(playerSelectionNumber);
     }
 
-    public void PreviousPlayer()
-    {
+    public void PreviousPlayer() {
         playerSelectionNumber -= 1;
-        if (playerSelectionNumber < 0)
-        {
+        if (playerSelectionNumber < 0) {
             playerSelectionNumber = selectablePlayers.Length - 1;
         }
         ActivatePlayer(playerSelectionNumber);

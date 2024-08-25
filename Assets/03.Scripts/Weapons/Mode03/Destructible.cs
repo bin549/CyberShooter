@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using Photon.Pun;
 
-public class Destructible : Obstacle
-{
+public class Destructible : Obstacle {
     [SerializeField] private Material[] stateMaterials;
     [SerializeField] private MeshRenderer meshRenderer;
     private int stateIndex = 0;
@@ -12,30 +11,25 @@ public class Destructible : Obstacle
     [SerializeField] private Vector3 dir;
     [SerializeField] private bool isDestory;
 
-    protected override void Awake()
-    {
+    protected override void Awake() {
         base.Awake();
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
-    protected override void Start()
-    {
+    protected override void Start() {
         base.Start();
         meshRenderer.material = stateMaterials[stateIndex];
     }
 
-    public override void TakeDamage()
-    {
+    public override void TakeDamage() {
         Destory();
     }
 
-    public void Destory()
-    {
+    public void Destory() {
         if (isDestory)
             return;
         stateIndex++;
-        if (stateIndex >= stateMaterials.Length)
-        {
+        if (stateIndex >= stateMaterials.Length) {
             photonView.RPC("SpawnDestroyEffect", RpcTarget.All);
             PhotonNetwork.Destroy(gameObject);
             return;
@@ -45,16 +39,14 @@ public class Destructible : Obstacle
     }
 
     [PunRPC]
-    private void SpawnExplosionEffect()
-    {
+    private void SpawnExplosionEffect() {
         GameObject.Instantiate(destroyEffect, transform.position, transform.rotation);
         obstacleAudio.PlayDestorySound();
         isDestory = true;
     }
 
     [PunRPC]
-    private void SpawnCollEffectEffect()
-    {
+    private void SpawnCollEffectEffect() {
         GameObject coll = GameObject.Instantiate(collEffect, transform.position, transform.rotation);
         obstacleAudio.PlayCollSound();
         GameObject.Destroy(coll, coll.GetComponent<ParticleSystem>().duration);

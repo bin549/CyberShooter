@@ -7,8 +7,7 @@ public class ThrowGrabbable : CustomGrabbable {
         rigidBody.isKinematic = false;
         rigidBody.velocity = linearVelocity;
         rigidBody.angularVelocity = angularVelocity;
-        if (rigidBody.velocity.sqrMagnitude > 3.0f)
-        {
+        if (rigidBody.velocity.sqrMagnitude > 3.0f) {
             canExplose = true;
         }
         GrabEnd();
