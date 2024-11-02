@@ -103,7 +103,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
         if (!string.IsNullOrEmpty(playerName)) {
             ActivatePanel(ConnectingInfoUIPanel.name);
-
             if (!PhotonNetwork.IsConnected) {
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 PhotonNetwork.ConnectUsingSettings();
@@ -135,7 +134,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public void OnCreateRoomButtonClicked() {
         ActivatePanel(CreatingRoomInfoUIPanel.name);
-
         if (GameMode != null) {
             string roomName = RoomNameInputField.text;
             if (string.IsNullOrEmpty(roomName)) {

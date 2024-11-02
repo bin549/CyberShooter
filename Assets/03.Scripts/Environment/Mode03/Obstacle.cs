@@ -13,8 +13,8 @@ public class Obstacle : EnvironmentItem {
 
     protected override void Start() {
         base.Start();
-
     }
+
     protected void OnCollisionEnter(Collision collision) {
         obstacleAudio.PlayCollSound();
     }

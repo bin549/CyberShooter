@@ -45,7 +45,6 @@ public class PlayerListEntryInitializer : MonoBehaviour {
 
     public void SetPlayerReady(bool playerReady) {
         PlayerReadyImage.enabled = playerReady;
-
         if (playerReady) {
             PlayerReadyButton.GetComponentInChildren<Text>().text = "Ready!";
         } else {

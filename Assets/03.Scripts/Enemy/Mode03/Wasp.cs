@@ -27,8 +27,7 @@ public class Wasp : MonoBehaviour {
     private void Update() {
         if (target == null) {
             DefineTarget();
-        }
-        else {
+        } else {
             ChaseTarget();
         }
     }
@@ -55,7 +54,6 @@ public class Wasp : MonoBehaviour {
         if (Vector3.Distance(target.position, transform.position) > maxDistance) {
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }
-
         if (attackTimer > 0)
             attackTimer -= Time.deltaTime;
         if (attackTimer < 0)
@@ -69,10 +67,8 @@ public class Wasp : MonoBehaviour {
         float distance = Vector3.Distance(target.transform.position, transform.position);
         Vector3 dir = (target.transform.position - transform.position).normalized;
         float direction = Vector3.Dot(dir, transform.forward);
-
         if (distance <= 2.5f && direction > 0) {
             PlayerHealth playerHealth = target.GetComponent<PlayerHealth>();
-
             if (playerHealth != null) {
                 playerHealth.TakeDamage(damage);
                 animator.SetTrigger("attack");

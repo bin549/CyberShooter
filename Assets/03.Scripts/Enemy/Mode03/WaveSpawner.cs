@@ -65,15 +65,14 @@ public class WaveSpawner : MonoBehaviour {
             if (!cooperationModeGameManager.GameIsOver)
                 cooperationModeGameManager.WinLevel();
         }
-        else { {
-                WaveIndex++;
-                ClearupItem();
-                SpawnPowerupHealth();
-                NextWave();
-                weatherDB.Tomorrow();
-                musicDB.Tomorrow();
-                obstacleSpawner.Spawn();
-            }
+        else {
+            WaveIndex++;
+            ClearupItem();
+            SpawnPowerupHealth();
+            NextWave();
+            weatherDB.Tomorrow();
+            musicDB.Tomorrow();
+            obstacleSpawner.Spawn();
         }
     }
 

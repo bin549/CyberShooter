@@ -43,7 +43,6 @@ public class Health : MonoBehaviour {
         float healthBefore = currentHealth;
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
-
         float trueDamageAmount = healthBefore - currentHealth;
         Debug.Log(trueDamageAmount);
         if (trueDamageAmount > 0f && onDamaged != null) {
@@ -56,8 +55,7 @@ public class Health : MonoBehaviour {
         if (isDead)
             return;
         if (currentHealth <= 0f) {
-            if (onDie != null)
-            {
+            if (onDie != null) {
                 isDead = true;
                 onDie.Invoke();
             }

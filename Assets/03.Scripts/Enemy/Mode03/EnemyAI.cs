@@ -53,8 +53,7 @@ public class EnemyAI : MonoBehaviour {
     private void Update() {
         if (target == null) {
             Patrol();
-        }
-        else {
+        } else {
             ChaseTarget();
         }
     }
@@ -136,26 +135,19 @@ public class EnemyAI : MonoBehaviour {
             elapsedTime += Time.deltaTime;
             bool useStrongAttack = UnityEngine.Random.Range(0.0f, 1.0f) > strongAttackPossibility ? true : false;
             if (elapsedTime > attackRate) {
-                if (!useStrongAttack)
-                {
+                if (!useStrongAttack) {
                     enemyAudio.PlayAttackSound();
                     enemyAnimator.Attack();
                     Damage(target);
                 }
-                else
-                {
+                else {
                     enemyAudio.PlayStrongAttackSound();
                     enemyAnimator.StrongAttack();
-
-                    if (haveStrongAttackRange)
-                    {
+                    if (haveStrongAttackRange) {
                         RangeDamage();
-                    }
-                    else
-                    {
+                    } else {
                         Rigidbody rb = target.gameObject.GetComponent<Rigidbody>();
-                        if (rb != null)
-                        {
+                        if (rb != null) {
                             rb.AddForce(-target.forward * strongAttackForce);
                         }
                         Damage(target);

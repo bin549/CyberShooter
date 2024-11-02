@@ -47,8 +47,7 @@ public class Turret : MonoBehaviour {
         GameObject nearestActor = null;
         foreach (GameObject actor in actors) {
             float distanceToActor = Vector3.Distance(transform.position, actor.transform.position);
-            if (distanceToActor < shortestDistance)
-            {
+            if (distanceToActor < shortestDistance) {
                 shortestDistance = distanceToActor;
                 nearestActor = actor;
             }
@@ -57,8 +56,7 @@ public class Turret : MonoBehaviour {
             animator.SetBool("IsActive", true);
             target = nearestActor.transform;
             targetActor = nearestActor.GetComponent<Actor>();
-        }
-        else {
+        } else {
             animator.SetBool("IsActive", false);
             target = null;
         }

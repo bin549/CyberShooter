@@ -163,10 +163,8 @@ public class Car : EnvironmentItem {
         float rand_Radius = Random.Range(explosionMinRadius, explosionMaxRadius);
         Vector3 randDir = Random.insideUnitSphere * rand_Radius;
         randDir += transform.position;
-
         var explosion = GameObject.Instantiate(explosionEffect, randDir, transform.rotation);
         Destroy(explosion, 3.0f);
-
         Destroy(this.gameObject, 5.0f);
         Invoke("SetHide", 2.0f);
     }

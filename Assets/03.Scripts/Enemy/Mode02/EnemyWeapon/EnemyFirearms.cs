@@ -101,8 +101,7 @@ public class EnemyFirearms : MonoBehaviour, IWeapon {
         }
         if (Random.value > 0.5f) {
             CheckShowCoroutine(CreateBulleyLineCroutine(muzzleFlashTransform.position, hit.point));
-        }
-        else {
+        } else {
             bulletLine.enabled = false;
         }
     }

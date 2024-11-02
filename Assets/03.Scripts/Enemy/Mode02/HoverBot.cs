@@ -112,18 +112,14 @@ public class HoverBot : MonoBehaviour {
         foreach (Actor otherActor in actorsManager.actors) {
             if (otherActor.affiliation != actor.affiliation) {
                 if ((otherActor.aimPoint.position - detectionSourcePoint.position).sqrMagnitude < SqrSeePlayerRadius) {
-                    if ((otherActor.aimPoint.position - detectionSourcePoint.position).sqrMagnitude < SqrSeePlayerRadius)
-                    {
+                    if ((otherActor.aimPoint.position - detectionSourcePoint.position).sqrMagnitude < SqrSeePlayerRadius) {
                         Vector3 direction = otherActor.aimPoint.position - detectionSourcePoint.position;
                         float angle = Vector3.Angle(direction, transform.forward);
-                        if (angle < fieldOfViewAngle * 0.5f || noticedBeAttacked)
-                        {
+                        if (angle < fieldOfViewAngle * 0.5f || noticedBeAttacked) {
                             RaycastHit hit;
-                            if (Physics.Raycast(detectionSourcePoint.position, direction.normalized, out hit, seePlayerRadius))
-                            {
+                            if (Physics.Raycast(detectionSourcePoint.position, direction.normalized, out hit, seePlayerRadius)) {
                                 Actor hitActor = hit.collider.GetComponentInParent<Actor>();
-                                if (hitActor == otherActor)
-                                {
+                                if (hitActor == otherActor) {
                                     if (projector)
                                         projector.enabled = false;
                                     aiState = AIState.Attack;
