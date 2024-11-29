@@ -16,31 +16,24 @@ public class Uzi : ComplicateGun, ICanHolster {
             Fire = false;
             Shoot();
         }
-
         if (autoFiring) {
             AutoFire();
-        }
-        else if (stopAutoFiring && !autoFiring && animator.GetCurrentAnimatorStateInfo(0).IsTag("Fire")) {
+        } else if (stopAutoFiring && !autoFiring && animator.GetCurrentAnimatorStateInfo(0).IsTag("Fire")) {
             stopAutoFiring = false;
             animator.SetBool("StopFire", true);
             if (!Fire) {
                 audioSource.Stop();
-                if (transform.parent != null && transform.parent.transform.parent.name == "CustomHandRight")
-                {
+                if (transform.parent != null && transform.parent.transform.parent.name == "CustomHandRight") {
                     VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.RTouch);
-                }
-                else if (transform.parent != null && transform.parent.transform.parent.name == "CustomHandLeft")
-                {
+                } else if (transform.parent != null && transform.parent.transform.parent.name == "CustomHandLeft") {
                     VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.LTouch);
                 }
             }
         }
-
         if (!Cocked && CockBack) {
             CockBack = false;
             CockBackSlider();
         }
-
         if (ReleaseMagazine) {
             ReleaseMagazine = false;
             ReleaseMagazineFromGun();
@@ -71,8 +64,7 @@ public class Uzi : ComplicateGun, ICanHolster {
             }
             if (transform.parent.transform.parent.name == "CustomHandRight") {
                 VibrationManager.Instance.VibrateController(0.1f, 1, OVRInput.Controller.RTouch);
-            }
-            else if (transform.parent.transform.parent.name == "CustomHandLeft") {
+            } else if (transform.parent.transform.parent.name == "CustomHandLeft") {
                 VibrationManager.Instance.VibrateController(0.1f, 1, OVRInput.Controller.LTouch);
             }
         }
@@ -86,15 +78,12 @@ public class Uzi : ComplicateGun, ICanHolster {
                 animator.SetTrigger("Fire");
                 animator.SetBool("StopFire", true);
                 audioSource.PlayOneShot(fireSound);
-                if (transform.parent.transform.parent.name == "CustomHandRight")
-                {
+                if (transform.parent.transform.parent.name == "CustomHandRight") {
                     VibrationManager.Instance.VibrateController(0.25f, 0.4f, 0.8f, OVRInput.Controller.RTouch);
-                } else if (transform.parent.transform.parent.name == "CustomHandLeft")
-                {
+                } else if (transform.parent.transform.parent.name == "CustomHandLeft") {
                     VibrationManager.Instance.VibrateController(0.25f, 0.4f, 0.8f, OVRInput.Controller.LTouch);
                 }
-            }
-            else if (!Fire) {
+            } else if (!Fire) {
                 audioSource.Stop();
                 autoFiring = true;
             }

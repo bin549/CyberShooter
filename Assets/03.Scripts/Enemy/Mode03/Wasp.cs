@@ -10,13 +10,9 @@ public class Wasp : MonoBehaviour {
     public float coolDown;
     public float maxDistance;
     public float damage;
-
-    [Header("Effect")]
-    [SerializeField] private GameObject deadEffect;
+    [Header("Effect")] [SerializeField] private GameObject deadEffect;
     [SerializeField] private GameObject spawnEffect;
-
-    [Header("Sound")]
-    [SerializeField] private AudioSource audioSource;
+    [Header("Sound")] [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip spawnAudio, hurtSound, dieSound;
 
     private void Start() {
@@ -50,7 +46,8 @@ public class Wasp : MonoBehaviour {
 
     private void ChaseTarget() {
         Debug.DrawLine(target.position, transform.position, Color.yellow);
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(target.position - transform.position), rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation,
+            Quaternion.LookRotation(target.position - transform.position), rotationSpeed * Time.deltaTime);
         if (Vector3.Distance(target.position, transform.position) > maxDistance) {
             transform.position += transform.forward * moveSpeed * Time.deltaTime;
         }

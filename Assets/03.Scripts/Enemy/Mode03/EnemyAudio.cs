@@ -40,7 +40,6 @@ public class EnemyAudio : MonoBehaviour {
         audioSource.Play();
     }
 
-
     public void PlayRunSound() {
         audioSource.clip = runAudioClip;
         audioSource.Play();

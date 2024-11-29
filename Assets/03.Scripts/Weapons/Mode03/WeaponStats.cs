@@ -41,7 +41,8 @@ public class WeaponStats : MonoBehaviour {
 
     [PunRPC]
     private void SpawnLevelUpEffect() {
-        GameObject levelUpEffect = GameObject.Instantiate(levelUpEffects[currentLevel], transform.position, transform.rotation);
+        GameObject levelUpEffect =
+            GameObject.Instantiate(levelUpEffects[currentLevel], transform.position, transform.rotation);
         Destroy(levelUpEffect, 1.5f);
     }
 }

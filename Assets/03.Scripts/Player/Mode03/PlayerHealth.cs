@@ -62,7 +62,6 @@ public class PlayerHealth : CooperationModeHealth {
         photonView.RPC("Reborn", RpcTarget.AllBuffered);
     }
 
-
     [PunRPC]
     public void Reborn() {
         health = startHealth;
@@ -89,18 +88,14 @@ public class PlayerHealth : CooperationModeHealth {
     [PunRPC]
     public void HealRPC(float amount) {
         health += amount;
-
         healEffect = GameObject.Instantiate(healEffectPrefab, transform.root.position, transform.root.rotation);
         GameObject.Destroy(healEffect, 2.0f);
-
         if (isDangerous) {
             if (health > 30.0f) {
                 isDangerous = false;
                 playerUI.Dangerous(isDangerous);
-
                 GameObject effect = Instantiate(healEffect, transform.position, Quaternion.identity);
                 Destroy(effect, 1f);
-
             }
         }
 

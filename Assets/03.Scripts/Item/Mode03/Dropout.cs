@@ -60,11 +60,9 @@ public class Dropout : MonoBehaviour {
         GameObject instance = Instantiate(Resources.Load(weaponDropout.gameObject.name, typeof(GameObject))) as GameObject;
         //shape.mesh = instance.GetComponent<MeshFilter>().sharedMesh;
         Destroy(instance);
-
         Mesh shapemesh = instance.GetComponent<MeshFilter>().sharedMesh;
         if (shapemesh != null) {
             shape.mesh = shapemesh;
-
         }
         // PhotonNetwork.Instantiate(weaponDropout.gameObject.name);
         //  shape.mesh = Resources.Load(weaponDropout.gameObject.GetComponent<MeshFilter>().sharedMesh.name) as Mesh;

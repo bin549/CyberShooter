@@ -11,7 +11,8 @@ public class Shield : WeaponController {
 
     private void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Bullet")) {
-            collision.gameObject.GetComponent<Rigidbody>().AddRelativeForce(-collision.gameObject.transform.forward * bounceForce, forceMode);
+            collision.gameObject.GetComponent<Rigidbody>()
+                .AddRelativeForce(-collision.gameObject.transform.forward * bounceForce, forceMode);
             VibrationManager.Instance.VibrateController(0.1f, 2.9f, Controller);
             //        AudioManager.Instance.Play(audioSource, bounceSound);
         }

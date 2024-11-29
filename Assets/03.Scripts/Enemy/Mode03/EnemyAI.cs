@@ -4,39 +4,28 @@ using Photon.Pun;
 public class EnemyAI : MonoBehaviour {
     [SerializeField] private Transform target;
     public GameObject impactEffect;
-
-    [Header("Base")]
-    public float startSpeed = 10f;
+    [Header("Base")] public float startSpeed = 10f;
     public float speed = 70f;
     public int damage = 50;
     public Transform startPoint;
     public Transform hitCheckPoint;
     public const float SPEEDPLUS = 1.4f;
-
     [SerializeField] private float force = 7f;
     [SerializeField] private float strongAttackForce = 7f;
     public float strongAttackRange;
     public bool haveStrongAttackRange = false;
     [Range(0, 1.0f)] [SerializeField] private float strongAttackPossibility = 0.7f;
-
-    [Header("Status")]
-    public bool isPatrolling = true;
-
-    [Header("Radius")]
-    public float activityRadius;
+    [Header("Status")] public bool isPatrolling = true;
+    [Header("Radius")] public float activityRadius;
     public float patrolRadius_Min;
     public float patrolRadius;
     public float explosionRange;
     public float attackRange;
-
     protected float elapsedTime;
     public float attackRate = 2.4f;
-
     private EnemyAnimator enemyAnimator;
-
     private float patrol_Timer;
     public float patrol_For_This_Time = 15f;
-
     private EnemyAudio enemyAudio;
 
     private void Awake() {
@@ -70,8 +59,7 @@ public class EnemyAI : MonoBehaviour {
                 enemyAnimator.Walk(false);
                 isPatrolling = true;
             }
-        }
-        else {
+        } else {
             patrol_Timer += Time.deltaTime;
             if (patrol_Timer > patrol_For_This_Time) {
                 patrol_Timer = 0f;
@@ -130,8 +118,7 @@ public class EnemyAI : MonoBehaviour {
     private void AttackTarget() {
         if (explosionRange > 0f) {
             Explode();
-        }
-        else {
+        } else {
             elapsedTime += Time.deltaTime;
             bool useStrongAttack = UnityEngine.Random.Range(0.0f, 1.0f) > strongAttackPossibility ? true : false;
             if (elapsedTime > attackRate) {
@@ -139,8 +126,7 @@ public class EnemyAI : MonoBehaviour {
                     enemyAudio.PlayAttackSound();
                     enemyAnimator.Attack();
                     Damage(target);
-                }
-                else {
+                } else {
                     enemyAudio.PlayStrongAttackSound();
                     enemyAnimator.StrongAttack();
                     if (haveStrongAttackRange) {
@@ -152,7 +138,6 @@ public class EnemyAI : MonoBehaviour {
                         }
                         Damage(target);
                     }
-
                 }
                 elapsedTime = 0f;
             }
@@ -235,6 +220,5 @@ public class EnemyAI : MonoBehaviour {
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, strongAttackRange);
-
     }
 }

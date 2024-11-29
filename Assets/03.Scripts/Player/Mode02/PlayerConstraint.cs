@@ -13,6 +13,7 @@ public class PlayerConstraint : MonoBehaviour {
             return locomotionController.GetComponent<LocomotionTeleport>();
         }
     }
+
     private void Awake() {
         locomotionController = FindObjectOfType<LocomotionController>();
         gameManager = FindObjectOfType<GameManager>();
@@ -36,7 +37,6 @@ public class PlayerConstraint : MonoBehaviour {
     public void SetupWalkOnly() {
     //  locomotionController.enabled = false;
       locomotionController.gameObject.SetActive(false);
-
         /*
         SetupTeleportDefaults();
         teleportController.enabled = false;

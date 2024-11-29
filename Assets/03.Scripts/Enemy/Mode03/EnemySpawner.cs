@@ -48,7 +48,8 @@ public class EnemySpawner : MonoBehaviour {
 
     private void Spawn(Enemy enemy) {
         audioSource.Play();
-        GameObject newEnemy = PhotonNetwork.Instantiate(enemy.enemyPrefab.name, spawnPoint.position, spawnPoint.rotation) as GameObject;
+        GameObject newEnemy =
+            PhotonNetwork.Instantiate(enemy.enemyPrefab.name, spawnPoint.position, spawnPoint.rotation) as GameObject;
         EnemyAI enemyAI = newEnemy.GetComponent<EnemyAI>();
         if (enemyAI != null) {
             enemyAI.startPoint.position = enemyStartPoints[Random.Range(0, enemyStartPoints.Length)].position;

@@ -12,7 +12,6 @@ public class MeleeWeapon : UpgradeWeaponController {
     public UnityAction<Collision> onEffectTrigger;
 
     protected virtual void Start() {
-
     }
 
     protected override void Update() {
@@ -21,12 +20,10 @@ public class MeleeWeapon : UpgradeWeaponController {
 
     protected virtual void OnCollisionEnter(Collision collision) {
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
+        if (rb != null) {
             rb.AddForce(-collision.gameObject.transform.forward * force);
         }
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
+        if (collision.gameObject.CompareTag("Enemy")) {
             collision.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
             VibrationManager.Instance.VibrateController(0.1f, 0.4f, 1.5f, controller);
         }
@@ -34,8 +31,7 @@ public class MeleeWeapon : UpgradeWeaponController {
 
     public override void UpgradeWeapon() {
         base.UpgradeWeapon();
-        if (effects[nextEffectIndex] != null)
-        {
+        if (effects[nextEffectIndex] != null) {
             effect = effects[nextEffectIndex];
             effectTriggerPossibility += upgradeeffectTriggerPossibility;
         }

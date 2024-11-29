@@ -7,7 +7,9 @@ public class MissileGun : BulletWeapon {
     [SerializeField] protected OVRInput.Button lockButton = OVRInput.Button.PrimaryHandTrigger;
     [SerializeField] private GameObject crosshair;
     [SerializeField] private Vector3 dir;
+
     [SerializeField] private float spherecastRadius = 0.1f;
+
     //  [SerializeField] private int targetObjectsInLayer = 0;
     [SerializeField] private float maxTargetDistance = 10.0f;
 
@@ -22,10 +24,10 @@ public class MissileGun : BulletWeapon {
             m_target = target;
         }
         if (m_target != null) {
-          SeeTarget();
+            SeeTarget();
         } else {
-          if (crosshair.activeSelf)
-          crosshair.SetActive(false);
+            if (crosshair.activeSelf)
+                crosshair.SetActive(false);
         }
         WeaponShoot();
     }
@@ -53,12 +55,14 @@ public class MissileGun : BulletWeapon {
             Transform enemy_target = null;
             Transform car_target = null;
             if (hitInfo.collider != null) {
-                var enemyHealth = hitInfo.collider.gameObject.GetComponent<EnemyHealth>() ?? hitInfo.collider.gameObject.GetComponentInParent<EnemyHealth>();
+                var enemyHealth = hitInfo.collider.gameObject.GetComponent<EnemyHealth>() ??
+                                  hitInfo.collider.gameObject.GetComponentInParent<EnemyHealth>();
                 enemy_target = enemyHealth == null ? null : hitInfo.collider.gameObject.transform;
                 if (enemy_target) {
                     target = enemy_target;
                 }
-                var car = hitInfo.collider.gameObject.GetComponent<Car>() ?? hitInfo.collider.gameObject.GetComponentInParent<Car>();
+                var car = hitInfo.collider.gameObject.GetComponent<Car>() ??
+                          hitInfo.collider.gameObject.GetComponentInParent<Car>();
                 car_target = car == null ? null : hitInfo.collider.gameObject.transform;
                 if (car_target) {
                     target = car_target;
@@ -72,10 +76,11 @@ public class MissileGun : BulletWeapon {
         VibrationManager.Instance.VibrateController(duration, frequency, amplitude, Controller);
         if (m_target != null) {
             var bullet_target = m_target;
-            MissileBullet missile = PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation).GetComponent<MissileBullet>(); ;
+            MissileBullet missile = PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation)
+                .GetComponent<MissileBullet>();
+            ;
             missile.Seek(bullet_target);
-        }
-        else {
+        } else {
             PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation);
         }
     }

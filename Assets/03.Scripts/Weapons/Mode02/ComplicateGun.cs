@@ -3,8 +3,17 @@ using UnityEngine;
 public class ComplicateGun : Gun {
     [SerializeField] private bool cockBack = false;
     [SerializeField] private bool cocked = false;
-    public bool CockBack { get => cockBack; set => cockBack = value; }
-    public bool Cocked { get => cocked; set => cocked = value; }
+
+    public bool CockBack {
+        get => cockBack;
+        set => cockBack = value;
+    }
+
+    public bool Cocked {
+        get => cocked;
+        set => cocked = value;
+    }
+
     [SerializeField] protected GameObject cartridge;
     [SerializeField] protected bool isDesertEagle;
     [SerializeField] protected AudioClip cockBackSound;
@@ -40,7 +49,6 @@ public class ComplicateGun : Gun {
         audioSource.PlayOneShot(cockBackSound);
         CockBack = false;
         animator.SetTrigger("CockBack");
-
         if (transform.parent.transform.parent.name == "CustomHandRight") {
             VibrationManager.Instance.VibrateController(0.25f, 0.1f, 0.1f, OVRInput.Controller.RTouch);
         } else if (transform.parent.transform.parent.name == "CustomHandLeft") {

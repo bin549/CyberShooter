@@ -32,9 +32,8 @@ public class BulletWeapon : ShootWeapon {
                     elapsedTime = 0;
                 }
             }
-        }
-        else {
-            if (OVRInput.Get(actionButton, Controller)|| Input.GetKey(KeyCode.E)) {
+        } else {
+            if (OVRInput.Get(actionButton, Controller) || Input.GetKey(KeyCode.E)) {
                 if (elapsedTime > fireRate) {
                     Shoot();
                     elapsedTime = 0;
@@ -52,7 +51,8 @@ public class BulletWeapon : ShootWeapon {
             if (willSMG)
                 isSMG = true;
         }
-        if (nextBulletIndex == bullets.Length) { {
+        if (nextBulletIndex == bullets.Length) {
+            {
                 if (willColorful)
                     isColorful = true;
             }

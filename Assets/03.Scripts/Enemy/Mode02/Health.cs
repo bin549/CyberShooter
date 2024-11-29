@@ -63,6 +63,5 @@ public class Health : MonoBehaviour {
     }
 
     public void HitAction(Vector3 tr) {
-
     }
 }

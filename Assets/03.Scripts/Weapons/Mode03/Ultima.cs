@@ -19,7 +19,6 @@ public class Ultima : BombableWeapon {
                 canExplose = true;
             }
         }
-
         if (canExplose) {
             countdown -= Time.deltaTime;
             if (countdown <= 0f) {

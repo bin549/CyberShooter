@@ -5,13 +5,9 @@ public class WaspQueen : MonoBehaviour {
     [SerializeField] private Wasp waspPrefab;
     private Transform SpawnTransform;
     private Transform target;
-
-    [Header("Effect")]
-    [SerializeField] private GameObject deadEffect;
+    [Header("Effect")] [SerializeField] private GameObject deadEffect;
     [SerializeField] private GameObject spawnEffect;
-
-    [Header("Sound")]
-    [SerializeField] private AudioSource audioSource;
+    [Header("Sound")] [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip spawnAudio, hurtSound, dieSound;
 
     public int moveSpeed, rotationSpeed;
@@ -31,7 +27,8 @@ public class WaspQueen : MonoBehaviour {
 
     private void Update() {
         Debug.DrawLine(target.position, myTransform.position, Color.yellow);
-        myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
+        myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
+            Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
         if (Vector3.Distance(target.position, myTransform.position) > maxDistance) {
             myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
         }

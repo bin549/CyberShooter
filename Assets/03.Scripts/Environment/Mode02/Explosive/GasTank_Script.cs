@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GasTank_Script : ExplosiveBarrel_Script {
-    [Header("爆炸前会乱动模块")]
-    public Light lightObject;
+    [Header("爆炸前会乱动模块")] public Light lightObject;
     public ParticleSystem flameParticles;
     public ParticleSystem smokeParticles;
     public AudioSource flameSound;
     public AudioSource impactSound;
-
-    public float explosionTimer = 6f, rotationSpeed = 15f, maxRotationSpeed = 25f, moveSpeed = 2500, audioPitchIncrease = 0.25f;
+    public float explosionTimer = 6f,
+        rotationSpeed = 15f,
+        maxRotationSpeed = 25f,
+        moveSpeed = 2500,
+        audioPitchIncrease = 0.25f;
     private bool expload, audioHasPlayed = false;
     private float randomRotationValue, randomValue;
 

@@ -42,7 +42,6 @@ public class ComplicateGunController : MonoBehaviour {
     private void ToggleFire() {
         if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.LTouch)) {
             var UziScriptLeftHand = CheckIfUziInHand(leftHandParent);
-
             if (UziScriptLeftHand != null) {
                 if (UziScriptLeftHand.Fire) {
                     UziScriptLeftHand.Fire = false;
@@ -58,7 +57,6 @@ public class ComplicateGunController : MonoBehaviour {
         }
         if (OVRInput.GetDown(OVRInput.Button.Two, OVRInput.Controller.RTouch)) {
             var UziScriptRightHand = CheckIfUziInHand(rightHandParent);
-
             if (UziScriptRightHand.Fire) {
                 UziScriptRightHand.Fire = false;
             } else {

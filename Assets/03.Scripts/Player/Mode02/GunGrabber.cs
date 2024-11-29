@@ -24,36 +24,34 @@ public class GunGrabber : MonoBehaviour {
 
     private void DropItem() {
         if (OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, controller) || Input.GetKeyUp(KeyCode.E)) {
-            if (objectInHand != null) {
-                if (!objectInHand.CompareTag("UsedMagazine")) {
-                    objectInHand.transform.parent = null;
-                    var rigidBody = objectInHand.GetComponent<Rigidbody>();
-                    rigidBody.isKinematic = false;
-                }
-                if (objectInHand.CompareTag("Uzi")) {
-                    var uzi = objectInHand.GetComponent<Uzi>();
-                    uzi.autoFiring = false;
-                    uzi.stopAutoFiring = true;
-                    if (controller == OVRInput.Controller.RTouch) {
-                        VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.RTouch);
-                    } else {
-                        VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.LTouch);
-                    }
-                }
-                var canHolster = objectInHand.GetComponent<ICanHolster>();
-                if (canHolster != null) {
-                    HolsterWeapon(canHolster);
-                }
-                handIsFull = false;
-                objectInHand = null;
-                handAnimationController.SetHoldingUziMagazine(animator, false);
-                handAnimationController.SetHoldingUzi(animator, false);
-                handAnimationController.SetHoldingDeagle(animator, false);
-                handAnimationController.SetHoldingDeagleMagazine(animator, false);
-
-                // handScript..AllowThumbsUp = true;
-                // handScript.BlockDefaultHandPose = false;
+            if (objectInHand == null) {
+                return;
             }
+            if (!objectInHand.CompareTag("UsedMagazine")) {
+                objectInHand.transform.parent = null;
+                var rigidBody = objectInHand.GetComponent<Rigidbody>();
+                rigidBody.isKinematic = false;
+            }
+            if (objectInHand.CompareTag("Uzi")) {
+                var uzi = objectInHand.GetComponent<Uzi>();
+                uzi.autoFiring = false;
+                uzi.stopAutoFiring = true;
+                if (controller == OVRInput.Controller.RTouch) {
+                    VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.RTouch);
+                } else {
+                    VibrationManager.Instance.TurnOffVibrate(OVRInput.Controller.LTouch);
+                }
+            }
+            var canHolster = objectInHand.GetComponent<ICanHolster>();
+            if (canHolster != null) {
+                HolsterWeapon(canHolster);
+            }
+            handIsFull = false;
+            objectInHand = null;
+            handAnimationController.SetHoldingUziMagazine(animator, false);
+            handAnimationController.SetHoldingUzi(animator, false);
+            handAnimationController.SetHoldingDeagle(animator, false);
+            handAnimationController.SetHoldingDeagleMagazine(animator, false);
         }
     }
 
@@ -87,7 +85,6 @@ public class GunGrabber : MonoBehaviour {
         if (other.transform.root.CompareTag("DesertEagle")) {
             //  handScript.BlockDefaultHandPose = true;
         }
-
         if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, controller) || Input.GetKeyDown(KeyCode.E)) {
             if (!handIsFull && other.transform.root.CompareTag("DesertEagle")) {
                 if (other.transform.parent != null && other.transform.parent.name.Contains("Snap")) {
@@ -121,8 +118,7 @@ public class GunGrabber : MonoBehaviour {
     private void PlaceInHand(Collider other, Transform snapPosition) {
         if (other.transform.parent != null && !other.transform.parent.CompareTag("Holster")) {
             objectInHand = other.transform.parent.gameObject;
-        }
-        else {
+        } else {
             objectInHand = other.transform.gameObject;
         }
         var rigidBody = objectInHand.GetComponent<Rigidbody>();

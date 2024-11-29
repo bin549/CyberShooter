@@ -12,7 +12,6 @@ public class Mine : Barrel {
     }
 
     public override void TakeDamage() {
-
     }
 
     private void Update() {

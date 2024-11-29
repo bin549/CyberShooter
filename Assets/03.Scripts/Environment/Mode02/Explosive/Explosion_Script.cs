@@ -19,22 +19,18 @@ public abstract class Explosion_Script : MonoBehaviour {
 
     private IEnumerator Explode() {
         yield return new WaitForSeconds(randomTime);
-
         Vector3 explosionPos = transform.position;
-
         RaycastHit checkGround;
         if (Physics.Raycast(transform.position, Vector3.down, out checkGround, 50)) {
             Instantiate(m_ConfigurationScript.ExplodePrefab, checkGround.point,
                 Quaternion.FromToRotation(Vector3.forward, checkGround.normal));
         }
-
         Collider[] colliders = Physics.OverlapSphere(explosionPos, m_ConfigurationScript.explosionRadius);
         foreach (Collider hit in colliders) {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
-
             if (rb != null)
-                rb.AddExplosionForce(m_ConfigurationScript.explosionForce * 50, explosionPos, m_ConfigurationScript.explosionRadius);
-
+                rb.AddExplosionForce(m_ConfigurationScript.explosionForce * 50, explosionPos,
+                    m_ConfigurationScript.explosionRadius);
             Health HitHealth = hit.GetComponentInParent<Health>();
             if (HitHealth) {
                 HitHealth.TakeDamage(ExplodeDamage, null);

@@ -7,7 +7,12 @@ public class WaveSpawner : MonoBehaviour {
     public CooperationModeGameManager cooperationModeGameManager;
     public Wave[] waves;
     [SerializeField] private int waveIndex = 0;
-    public int WaveIndex { get => waveIndex; set => waveIndex = value; }
+
+    public int WaveIndex {
+        get => waveIndex;
+        set => waveIndex = value;
+    }
+
     public List<EnemySpawner> enemySpawners { get; private set; }
     public ItemDB itemDB;
     public WeatherDB weatherDB;
@@ -64,8 +69,7 @@ public class WaveSpawner : MonoBehaviour {
         if (WaveIndex == waves.Length) {
             if (!cooperationModeGameManager.GameIsOver)
                 cooperationModeGameManager.WinLevel();
-        }
-        else {
+        } else {
             WaveIndex++;
             ClearupItem();
             SpawnPowerupHealth();
@@ -87,7 +91,8 @@ public class WaveSpawner : MonoBehaviour {
         for (int i = 0; i < num; i++) {
             int randomPointX = Random.Range(3, 45);
             int randomPointZ = Random.Range(-2, -98);
-            PhotonNetwork.Instantiate(itemDB.PowerupHealth.gameObject.name, new Vector3(randomPointX, -3.7f, randomPointZ), Quaternion.identity);
+            PhotonNetwork.Instantiate(itemDB.PowerupHealth.gameObject.name,
+                new Vector3(randomPointX, -3.7f, randomPointZ), Quaternion.identity);
         }
     }
 

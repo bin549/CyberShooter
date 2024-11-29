@@ -9,21 +9,16 @@ public class TargetScript : MonoBehaviour {
 
     [Header("Customizable Options")] public float minTime, maxTime;
 
-    [Header("Audio")]
-    public AudioClip upSound, downSound;
+    [Header("Audio")] public AudioClip upSound, downSound;
     public AudioSource audioSource;
 
     private void Update() {
         randomTime = Random.Range(minTime, maxTime);
-        if (isHit)
-        {
-            if (!routineStarted)
-            {
+        if (isHit) {
+            if (!routineStarted) {
                 gameObject.GetComponent<Animation>().Play("target_down");
-
                 audioSource.GetComponent<AudioSource>().clip = downSound;
                 audioSource.Play();
-
                 StartCoroutine(DelayTimer());
                 routineStarted = true;
             }

@@ -10,10 +10,11 @@ public class DropoutGrabber : WeaponController {
     }
 
     private void Update() {
-        if (dropout != null) {
-            if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, controller) || Input.GetKeyDown(KeyCode.Mouse0)) {
-                dropout.BePickUp(dropoutGrabberParent, controller);
-            }
+        if (dropout == null) {
+            return;
+        }
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, controller) || Input.GetKeyDown(KeyCode.Mouse0)) {
+            dropout.BePickUp(dropoutGrabberParent, controller);
         }
     }
 

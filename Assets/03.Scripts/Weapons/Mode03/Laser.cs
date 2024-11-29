@@ -30,8 +30,7 @@ public class Laser : ShootWeapon {
 
     public bool drawLine = false;
 
-    [Header("Adjustable Variables")]
-    public float beamEndOffset = 1f;
+    [Header("Adjustable Variables")] public float beamEndOffset = 1f;
     public float textureScrollSpeed = 8f;
     public float textureLengthScale = 3;
 
@@ -149,9 +148,7 @@ public class Laser : ShootWeapon {
                 obstacle.TakeDamage();
             }
             if (car != null) {
-
                 car.LaserDamage();
-
             }
             VibrationManager.Instance.VibrateController(frequency, amplitude, Controller);
             weaponAudio.PlayShootSound();

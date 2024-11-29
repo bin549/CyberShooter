@@ -3,14 +3,9 @@ using System.Collections;
 
 public class ExplosionEffectScript : MonoBehaviour {
     public ConfigurationScript ConfigurationScript;
-
-    [Header("Customizable Options")]
-    public float despawnTime = 10.0f, lightDuration = 0.02f;
-
+    [Header("Customizable Options")] public float despawnTime = 10.0f, lightDuration = 0.02f;
     [Header("Light")] public Light lightFlash;
-
-    [Header("Audio")]
-    private AudioClip[] explosionSounds;
+    [Header("Audio")] private AudioClip[] explosionSounds;
     public AudioSource audioSource;
 
     private void Start() {

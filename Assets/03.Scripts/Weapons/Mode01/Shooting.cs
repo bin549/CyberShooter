@@ -12,7 +12,8 @@ public class Shooting : MonoBehaviourPunCallbacks {
 
     private void Start() {
         object playerSelectionNumber;
-        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PlayerStatus.PLAYER_SELECTION_NUMBER, out playerSelectionNumber)) {
+        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(PlayerStatus.PLAYER_SELECTION_NUMBER,
+                out playerSelectionNumber)) {
             playerId = (int)playerSelectionNumber;
         }
     }
@@ -22,7 +23,8 @@ public class Shooting : MonoBehaviourPunCallbacks {
             return;
         }
         elapsedTime += Time.deltaTime * 1.0f;
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) || Input.GetKey("space")) {
+        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch) ||
+            Input.GetKey("space")) {
             if (elapsedTime >= bulletFrequency) {
                 photonView.RPC("Fire", RpcTarget.All, firePos.position);
                 elapsedTime = 0;
@@ -33,6 +35,7 @@ public class Shooting : MonoBehaviourPunCallbacks {
     [PunRPC]
     private void Fire() {
         GameObject bullletGameObject = Instantiate(bullet, firePos.position, firePos.rotation);
-        bullletGameObject.GetComponent<Bullet>().Initialize(FightModePlayerProperties.bulletSpeed, FightModePlayerProperties.damage, (int)playerId);
+        bullletGameObject.GetComponent<Bullet>().Initialize(FightModePlayerProperties.bulletSpeed,
+            FightModePlayerProperties.damage, (int)playerId);
     }
 }

@@ -6,24 +6,18 @@ using System.Collections.Generic;
 using TMPro;
 
 public class NetworkManager : MonoBehaviourPunCallbacks {
-    [Header("Login UI")]
-    public GameObject LoginUIPanel;
+    [Header("Login UI")] public GameObject LoginUIPanel;
     public InputField PlayerNameInput;
 
-    [Header("Connecting Info Panel")]
-    public GameObject ConnectingInfoUIPanel;
-    [Header("GameOptions Panel")]
-    public GameObject GameOptionsUIPanel;
-    [Header("Creating Room Info Panel")]
-    public GameObject CreatingRoomInfoUIPanel;
+    [Header("Connecting Info Panel")] public GameObject ConnectingInfoUIPanel;
+    [Header("GameOptions Panel")] public GameObject GameOptionsUIPanel;
+    [Header("Creating Room Info Panel")] public GameObject CreatingRoomInfoUIPanel;
 
-    [Header("Create Room Panel")]
-    public GameObject CreateRoomUIPanel;
+    [Header("Create Room Panel")] public GameObject CreateRoomUIPanel;
     public InputField RoomNameInputField;
     public string GameMode;
 
-    [Header("Inside Room Panel")]
-    public GameObject InsideRoomUIPanel;
+    [Header("Inside Room Panel")] public GameObject InsideRoomUIPanel;
     public Text RoomInfoText;
     public Text GameModeText;
     public GameObject PlayerListPrefab;
@@ -36,8 +30,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public FightModePlayer[] FightModePlayers;
     public CooperationModePlayer[] CooperationModePlayers;
 
-    [Header("Join Random Room Panel")]
-    public GameObject JoinRandomRoomUIPanel;
+    [Header("Join Random Room Panel")] public GameObject JoinRandomRoomUIPanel;
     private Dictionary<int, GameObject> playerListGameObjects;
 
     public KeyDetector keyDetector;
@@ -45,11 +38,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     public InputField roomNameField;
     public GameObject keyBoard;
 
-    [Header("Connection Status")]
-    public TextMeshProUGUI connectionStatusText;
+    [Header("Connection Status")] public TextMeshProUGUI connectionStatusText;
 
-    [Header("Wait Panel")]
-    public GameObject WaitPanel;
+    [Header("Wait Panel")] public GameObject WaitPanel;
 
     private void Start() {
         ActivatePanel(LoginUIPanel.name);
@@ -82,7 +73,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             GameMode = "cooperation";
             OnCreateRoomButtonClicked();
         }
-
         if (Input.GetKeyDown(KeyCode.S)) {
             OnStartGameButtonClicked();
         }
@@ -107,8 +97,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
                 PhotonNetwork.LocalPlayer.NickName = playerName;
                 PhotonNetwork.ConnectUsingSettings();
             }
-        }
-        else {
+        } else {
             Debug.Log("Player name is invalid");
         }
     }
@@ -142,7 +131,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             RoomOptions roomOptions = new RoomOptions();
             roomOptions.MaxPlayers = 2;
             string[] roomPropsInLobby = { "gm" };
-            ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", GameMode } };
+            ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
+                { { "gm", GameMode } };
 
             roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
             roomOptions.CustomRoomProperties = customRoomProperties;
@@ -159,33 +149,37 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom() {
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined to " + PhotonNetwork.CurrentRoom.Name + "Player count:" + PhotonNetwork.CurrentRoom.PlayerCount);
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined to " + PhotonNetwork.CurrentRoom.Name +
+                  "Player count:" + PhotonNetwork.CurrentRoom.PlayerCount);
 
         ActivatePanel(InsideRoomUIPanel.name);
 
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("gm")) {
             RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " +
-               " Players/Max.Players: " +
-               PhotonNetwork.CurrentRoom.PlayerCount + " / " +
-               PhotonNetwork.CurrentRoom.MaxPlayers;
+                                " Players/Max.Players: " +
+                                PhotonNetwork.CurrentRoom.PlayerCount + " / " +
+                                PhotonNetwork.CurrentRoom.MaxPlayers;
             if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("fight")) {
                 GameModeText.text = "Fight Mode";
                 PanelBackground.sprite = fightModeBackground;
 
                 for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++) {
-                    PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = FightModePlayers[i].playerName;
+                    PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text =
+                        FightModePlayers[i].playerName;
                     PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = FightModePlayers[i].playerSprite;
-                    PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = FightModePlayers[i].weaponName +
+                    PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text =
+                        FightModePlayers[i].weaponName +
                         ": " + "Damage: " + FightModePlayers[i].damage + " FireRate: " + FightModePlayers[i].fireRate;
                 }
-            }
-            else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("cooperation")) {
+            } else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("cooperation")) {
                 GameModeText.text = "Cooperation Mode";
                 PanelBackground.sprite = cooperationModeBackground;
 
                 for (int i = 0; i < PlayerSelectionUIGameObjects.Length; i++) {
-                    PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text = CooperationModePlayers[i].playerName;
-                    PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite = CooperationModePlayers[i].playerSprite;
+                    PlayerSelectionUIGameObjects[i].transform.Find("PlayerName").GetComponent<Text>().text =
+                        CooperationModePlayers[i].playerName;
+                    PlayerSelectionUIGameObjects[i].GetComponent<Image>().sprite =
+                        CooperationModePlayers[i].playerSprite;
                     PlayerSelectionUIGameObjects[i].transform.Find("PlayerProperty").GetComponent<Text>().text = "";
                 }
             }
@@ -198,8 +192,10 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
                 GameObject playerListGameObject = GameObject.Instantiate(PlayerListPrefab);
                 playerListGameObject.transform.SetParent(PlayerListContent.transform);
                 playerListGameObject.transform.localScale = Vector3.one;
-                playerListGameObject.transform.localPosition = new Vector3(playerListGameObject.transform.position.x, playerListGameObject.transform.position.y, 0);
-                playerListGameObject.GetComponent<PlayerListEntryInitializer>().Initialize(player.ActorNumber, player.NickName);
+                playerListGameObject.transform.localPosition = new Vector3(playerListGameObject.transform.position.x,
+                    playerListGameObject.transform.position.y, 0);
+                playerListGameObject.GetComponent<PlayerListEntryInitializer>()
+                    .Initialize(player.ActorNumber, player.NickName);
                 object isPlayerReady;
                 if (player.CustomProperties.TryGetValue(PlayerStatus.PLAYER_READY, out isPlayerReady)) {
                     playerListGameObject.GetComponent<PlayerListEntryInitializer>().SetPlayerReady((bool)isPlayerReady);
@@ -210,7 +206,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
         StartGameButton.SetActive(false);
     }
 
-    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player target, ExitGames.Client.Photon.Hashtable changedProps) {
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player target,
+        ExitGames.Client.Photon.Hashtable changedProps) {
         GameObject playerListGameObject;
         if (playerListGameObjects.TryGetValue(target.ActorNumber, out playerListGameObject)) {
             object isPlayerReady;
@@ -231,8 +228,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
                 if (!(bool)isPlayerReady) {
                     return false;
                 }
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -244,8 +240,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             ActivatePanel(WaitPanel.name);
             if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("fight")) {
                 PhotonNetwork.LoadLevel(SceneNames.FIGHTGAME);
-            }
-            else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("cooperation")) {
+            } else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("cooperation")) {
                 PhotonNetwork.LoadLevel(SceneNames.COOPERATIONGAME);
             }
         }
@@ -253,7 +248,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public void OnJoinRandomRoomButtonClicked(string _gameMode) {
         GameMode = _gameMode;
-        ExitGames.Client.Photon.Hashtable expectedCustomRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", _gameMode } };
+        ExitGames.Client.Photon.Hashtable expectedCustomRoomProperties =
+            new ExitGames.Client.Photon.Hashtable() { { "gm", _gameMode } };
         PhotonNetwork.JoinRandomRoom(expectedCustomRoomProperties, 0);
     }
 
@@ -268,7 +264,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
             roomOptions.MaxPlayers = 3;
             string[] roomPropsInLobby = { "gm" };
 
-            ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable() { { "gm", GameMode } };
+            ExitGames.Client.Photon.Hashtable customRoomProperties = new ExitGames.Client.Photon.Hashtable()
+                { { "gm", GameMode } };
 
             roomOptions.CustomRoomPropertiesForLobby = roomPropsInLobby;
             roomOptions.CustomRoomProperties = customRoomProperties;
@@ -279,15 +276,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) {
         RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " +
-                  " Players/Max.Players: " +
-                  PhotonNetwork.CurrentRoom.PlayerCount + " / " +
-                  PhotonNetwork.CurrentRoom.MaxPlayers;
+                            " Players/Max.Players: " +
+                            PhotonNetwork.CurrentRoom.PlayerCount + " / " +
+                            PhotonNetwork.CurrentRoom.MaxPlayers;
 
         GameObject playerListGameObject = GameObject.Instantiate(PlayerListPrefab);
         playerListGameObject.transform.SetParent(PlayerListContent.transform);
         playerListGameObject.transform.localScale = Vector3.one;
         playerListGameObject.transform.position = Vector3.zero;
-        playerListGameObject.GetComponent<PlayerListEntryInitializer>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
+        playerListGameObject.GetComponent<PlayerListEntryInitializer>()
+            .Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
         playerListGameObjects.Add(newPlayer.ActorNumber, playerListGameObject);
 
@@ -296,9 +294,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks {
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer) {
         RoomInfoText.text = "Room name: " + PhotonNetwork.CurrentRoom.Name + " " +
-                " Players/Max.Players: " +
-                PhotonNetwork.CurrentRoom.PlayerCount + " / " +
-                PhotonNetwork.CurrentRoom.MaxPlayers;
+                            " Players/Max.Players: " +
+                            PhotonNetwork.CurrentRoom.PlayerCount + " / " +
+                            PhotonNetwork.CurrentRoom.MaxPlayers;
 
         GameObject.Destroy(playerListGameObjects[otherPlayer.ActorNumber].gameObject);
         playerListGameObjects.Remove(otherPlayer.ActorNumber);

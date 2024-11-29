@@ -8,9 +8,9 @@ public class EnemyMoblie : MonoBehaviour {
         Attack,
         Hide,
     }
+
     public AIState aiState { get; private set; }
-    [Header("Move Range")]
-    public float fieldOfViewAngle = 110f;
+    [Header("Move Range")] public float fieldOfViewAngle = 110f;
     public float seePlayerRadius;
     public float attackRadius;
     public float stopRunRadius;
@@ -183,7 +183,8 @@ public class EnemyMoblie : MonoBehaviour {
                     float angle = Vector3.Angle(direction, transform.forward);
                     if (angle < fieldOfViewAngle * 0.5f || noticedBeAttacked) {
                         RaycastHit hit;
-                        if (Physics.Raycast(detectionSourcePoint.position, direction.normalized, out hit, seePlayerRadius)) {
+                        if (Physics.Raycast(detectionSourcePoint.position, direction.normalized, out hit,
+                                seePlayerRadius)) {
                             Actor hitActor = hit.collider.GetComponentInParent<Actor>();
                             if (hitActor == otherActor) {
                                 if (projector)
@@ -200,15 +201,17 @@ public class EnemyMoblie : MonoBehaviour {
     }
 
     public void HandleAttackTarget(GameObject TargetGameObject) {
-        aimingTarget.position = Vector3.Lerp(aimingTarget.position, TargetGameObject.transform.position, Time.deltaTime * 6f);
-        detectionSourcePoint.LookAt(new Vector3(aimingTarget.position.x, detectionSourcePoint.position.y, aimingTarget.position.z));
+        aimingTarget.position =
+            Vector3.Lerp(aimingTarget.position, TargetGameObject.transform.position, Time.deltaTime * 6f);
+        detectionSourcePoint.LookAt(new Vector3(aimingTarget.position.x, detectionSourcePoint.position.y,
+            aimingTarget.position.z));
         Quaternion lookatrotation = detectionSourcePoint.rotation;
         transform.rotation = Quaternion.Lerp(transform.rotation, lookatrotation, Time.deltaTime * 4f);
         navMeshAgent.destination = aimingTarget.position;
-
         if (aimingTarget.localPosition.sqrMagnitude < SqrAttackRadius) {
             RaycastHit hit;
-            if (Physics.Raycast(detectionSourcePoint.position, (aimingTarget.position - detectionSourcePoint.position).normalized, out hit, attackRadius)) {
+            if (Physics.Raycast(detectionSourcePoint.position,
+                    (aimingTarget.position - detectionSourcePoint.position).normalized, out hit, attackRadius)) {
                 if (hit.collider.GetComponentInParent<Actor>()) {
                     iweapon.DoAttack();
                 }

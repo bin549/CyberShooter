@@ -5,7 +5,6 @@ public class Bullet : MonoBehaviour {
     [SerializeField] private float damage;
     [SerializeField] private float speed;
     [SerializeField] private float aliveTime = 5f;
-
     [SerializeField] private ForceMode bounchForceMode = ForceMode.Force;
     [SerializeField] private ForceMode forceMode = ForceMode.Force;
     [SerializeField] private int playerId;

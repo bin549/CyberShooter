@@ -86,12 +86,14 @@ public class EnemyFirearms : MonoBehaviour, IWeapon {
     }
 
     private void CreateBullet() {
-        bool tmphit = Physics.Raycast(muzzleFlashTransform.position, (muzzleFlashTransform.forward + CalculateSpreadOffset()).normalized, out RaycastHit hit, weaponRange);
+        bool tmphit = Physics.Raycast(muzzleFlashTransform.position,
+            (muzzleFlashTransform.forward + CalculateSpreadOffset()).normalized, out RaycastHit hit, weaponRange);
         if (!tmphit) return;
         if (hit.collider) {
             foreach (var tmpImpactEffect in impactMaterialCtrl.ImpactMaterialData) {
                 if (hit.collider.CompareTag(tmpImpactEffect.Tag)) {
-                    GameObject tmpBlood = Instantiate(tmpImpactEffect.ImpactHitEffectPrefab, hit.point, Quaternion.LookRotation(hit.normal));
+                    GameObject tmpBlood = Instantiate(tmpImpactEffect.ImpactHitEffectPrefab, hit.point,
+                        Quaternion.LookRotation(hit.normal));
                     tmpBlood.transform.SetParent(hit.collider.transform);
                 }
             }

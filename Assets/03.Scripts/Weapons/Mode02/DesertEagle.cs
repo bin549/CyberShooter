@@ -30,8 +30,7 @@ public class DesertEagle : ComplicateGun, ICanHolster {
             } else if (transform.parent.transform.parent.name == "CustomHandLeft") {
                 VibrationManager.Instance.VibrateController(0.25f, 1f, 1, OVRInput.Controller.LTouch);
             }
-        }
-        else if (Cocked && rounds == 1 && canShootAgain < Time.time) {
+        } else if (Cocked && rounds == 1 && canShootAgain < Time.time) {
             canShootAgain = Time.time + canShootAgainTime;
             rounds--;
             animator.SetTrigger("FireLastRound");
@@ -46,8 +45,7 @@ public class DesertEagle : ComplicateGun, ICanHolster {
             } else if (transform.parent.transform.parent.name == "CustomHandLeft") {
                 VibrationManager.Instance.VibrateController(0.25f, 1f, 1, OVRInput.Controller.LTouch);
             }
-        }
-        else if (Cocked && rounds <= 0 && !animator.GetCurrentAnimatorStateInfo(0).IsTag("FireLastRound")) {
+        } else if (Cocked && rounds <= 0 && !animator.GetCurrentAnimatorStateInfo(0).IsTag("FireLastRound")) {
             Cocked = false;
             animator.SetTrigger("FireNoAmmo");
             audioSource.PlayOneShot(fireNoAmmoSound);
@@ -56,11 +54,13 @@ public class DesertEagle : ComplicateGun, ICanHolster {
     }
 
     private void KickBack() {
-        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 10);
+        transform.rotation =
+            Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - 10);
         Invoke("ReturnKickBack", 0.1f);
     }
 
     private void ReturnKickBack() {
-        transform.rotation = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 10);
+        transform.rotation =
+            Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + 10);
     }
 }

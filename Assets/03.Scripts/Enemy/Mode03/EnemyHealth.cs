@@ -59,14 +59,16 @@ public class EnemyHealth : CooperationModeHealth {
         if (UnityEngine.Random.Range(0.0f, 1.0f) < enemyDropout.DropoutPossibility) {
             switch (enemyDropout.DropoutType) {
                 case DropoutType.ShootWeapon:
-                    PhotonNetwork.Instantiate(itemDB.ShootWeaponDropout.name, transform.position, Quaternion.identity).GetComponent<Dropout>();
+                    PhotonNetwork.Instantiate(itemDB.ShootWeaponDropout.name, transform.position, Quaternion.identity)
+                        .GetComponent<Dropout>();
                     break;
                 case DropoutType.ThrowWeapon:
-                    PhotonNetwork.Instantiate(itemDB.ThrowWeaponDropout.name, transform.position, Quaternion.identity).GetComponent<Dropout>();
+                    PhotonNetwork.Instantiate(itemDB.ThrowWeaponDropout.name, transform.position, Quaternion.identity)
+                        .GetComponent<Dropout>();
                     break;
                 case DropoutType.MeleeWeapon:
-                    PhotonNetwork.Instantiate(itemDB.MeleeWeaponDropout.name, transform.position, Quaternion.identity).GetComponent<Dropout>();
-
+                    PhotonNetwork.Instantiate(itemDB.MeleeWeaponDropout.name, transform.position, Quaternion.identity)
+                        .GetComponent<Dropout>();
                     break;
                 default:
                     break;
@@ -79,7 +81,8 @@ public class EnemyHealth : CooperationModeHealth {
         for (int i = 0; i < enemyGems.Length; i++) {
             EnemyGem enemyGem = enemyGems[i];
             for (int j = 0; j < enemyGem.count; j++) {
-                GameObject gem = PhotonNetwork.Instantiate(itemDB.GetGem(enemyGem.index).gameObject.name, transform.position, Quaternion.identity);
+                GameObject gem = PhotonNetwork.Instantiate(itemDB.GetGem(enemyGem.index).gameObject.name,
+                    transform.position, Quaternion.identity);
                 Destroy(gem, 15.0f);
             }
         }
